@@ -1,0 +1,208 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum AssetType {
+  BACKGROUND
+  OVERLAY
+  DEVICE_FRAME
+  STICKER
+  ICON
+  LOGO
+  USER_UPLOAD
+  OTHER
+}
+
+enum TemplateStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum ElementKind {
+  TEXT
+  IMAGE
+  SHAPE
+  DEVICE_SCREENSHOT_SLOT
+  GROUP
+}
+
+enum ProjectStatus {
+  DRAFT
+  EXPORTED
+}
+
+enum ExportFormat {
+  PNG
+  JPG
+  WEBP
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String
+  email         String   @unique
+  passwordHash  String
+  role          UserRole @default(USER)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  assets        Asset[]
+  templates     Template[]
+  projects      Project[]
+
+  @@index([role])
+}
+
+model Asset {
+  id          String    @id @default(cuid())
+  name        String
+  type        AssetType
+  fileUrl     String
+  width       Int?
+  height      Int?
+  mimeType    String
+  createdById String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  createdBy   User      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  @@index([createdById, type])
+  @@index([type, createdAt])
+}
+
+model Template {
+  id              String         @id @default(cuid())
+  name            String
+  slug            String         @unique
+  description     String?
+  status          TemplateStatus @default(DRAFT)
+  canvasWidth     Int
+  canvasHeight    Int
+  backgroundColor String         @default("#ffffff")
+  previewImageUrl String?
+  category        String?
+  publishedAt     DateTime?
+  createdById     String
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+  createdBy       User            @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  elements        TemplateElement[]
+  projects        Project[]
+
+  @@index([status, publishedAt])
+  @@index([createdById])
+  @@index([category])
+}
+
+model TemplateElement {
+  id             String      @id @default(cuid())
+  templateId     String
+  kind           ElementKind
+  name           String
+  zIndex         Int         @default(0)
+  x              Float
+  y              Float
+  width          Float
+  height         Float
+  rotation       Float       @default(0)
+  opacity        Float       @default(1)
+  locked         Boolean     @default(false)
+  visible        Boolean     @default(true)
+  editableByUser Boolean     @default(false)
+  dataJson       String
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  template       Template    @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  overrides      ProjectElementOverride[]
+
+  @@index([templateId, zIndex])
+  @@index([templateId, editableByUser])
+}
+
+model Project {
+  id            String         @id @default(cuid())
+  userId        String
+  templateId    String
+  name          String
+  status        ProjectStatus  @default(DRAFT)
+  canvasWidth   Int
+  canvasHeight  Int
+  editorStateJson String?
+  thumbnailUrl  String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  template      Template       @relation(fields: [templateId], references: [id], onDelete: Restrict)
+  overrides     ProjectElementOverride[]
+  customElements ProjectCustomElement[]
+  exports       Export[]
+
+  @@index([userId, updatedAt])
+  @@index([templateId])
+}
+
+model ProjectCustomElement {
+  id             String      @id @default(cuid())
+  projectId      String
+  kind           ElementKind
+  name           String
+  zIndex         Int         @default(0)
+  x              Float
+  y              Float
+  width          Float
+  height         Float
+  rotation       Float       @default(0)
+  opacity        Float       @default(1)
+  visible        Boolean     @default(true)
+  dataJson       String
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  project        Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, zIndex])
+}
+
+model ProjectElementOverride {
+  id                String          @id @default(cuid())
+  projectId         String
+  templateElementId String
+  overriddenPropsJson String
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  project           Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  templateElement   TemplateElement @relation(fields: [templateElementId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, templateElementId])
+  @@index([projectId])
+  @@index([templateElementId])
+}
+
+model Export {
+  id          String       @id @default(cuid())
+  projectId   String
+  format      ExportFormat
+  scale       Float        @default(1)
+  outputUrl   String
+  createdAt   DateTime     @default(now())
+
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, createdAt])
+}
