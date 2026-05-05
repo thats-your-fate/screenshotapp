@@ -12,6 +12,12 @@ const TEMPLATE_PREFIX = "Seed Background";
 const CANVAS_WIDTH = 1242;
 const CANVAS_HEIGHT = 2688;
 const SCREEN_COUNT = 7;
+const DEVICE_X = 190;
+const DEVICE_Y = 560;
+const DEVICE_WIDTH = 862;
+const DEVICE_HEIGHT = 1860;
+const HEADLINE_Y = 180;
+const HEADLINE_HEIGHT = 260;
 
 function slugify(value: string) {
   return value
@@ -89,10 +95,10 @@ function buildTemplateElements(backgroundUrl: string, deviceBackgroundUrls: stri
         kind: ElementKind.TEXT,
         name: "Headline",
         zIndex: 10,
-        x: 90,
-        y: 180,
-        width: 1060,
-        height: 220,
+        x: DEVICE_X,
+        y: HEADLINE_Y,
+        width: DEVICE_WIDTH,
+        height: HEADLINE_HEIGHT,
         rotation: 0,
         opacity: 1,
         locked: false,
@@ -105,7 +111,7 @@ function buildTemplateElements(backgroundUrl: string, deviceBackgroundUrls: stri
           fontStyle: "normal",
           fontFamily: "space",
           color: "#0f172a",
-          align: "left",
+          align: "center",
           [SCREEN_ID_META_KEY]: screenId,
           [SCREEN_NAME_META_KEY]: screenName,
         }),
@@ -114,10 +120,10 @@ function buildTemplateElements(backgroundUrl: string, deviceBackgroundUrls: stri
         kind: ElementKind.DEVICE_SCREENSHOT_SLOT,
         name: "Screenshot Slot",
         zIndex: 20,
-        x: 190,
-        y: 560,
-        width: 862,
-        height: 1860,
+        x: DEVICE_X,
+        y: DEVICE_Y,
+        width: DEVICE_WIDTH,
+        height: DEVICE_HEIGHT,
         rotation: 0,
         opacity: 1,
         locked: false,

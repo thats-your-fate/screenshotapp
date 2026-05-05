@@ -12,6 +12,7 @@ import type { EditorElement, EditorScreen } from "@/features/editor/types";
 import { saveProjectEditorStateAction, updateProjectNameAction } from "@/features/projects/actions";
 
 type ExportOutputFormat = "PNG" | "JPG" | "WEBP";
+const TEXT_ALIGN_OPTIONS = ["left", "center", "right"] as const;
 
 function createCustomElement(
   kind: "TEXT" | "IMAGE" | "DEVICE_SCREENSHOT_SLOT",
@@ -1153,6 +1154,22 @@ export function UserProjectEditor({
                   >
                     Italic
                   </Button>
+                </div>
+                <div>
+                  <p className="mb-2 text-xs font-medium text-slate-700">Text alignment</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {TEXT_ALIGN_OPTIONS.map((align) => (
+                      <Button
+                        key={align}
+                        type="button"
+                        variant={(selected.data.align || "left") === align ? "primary" : "ghost"}
+                        className="border border-slate-200 px-2 py-1 text-xs capitalize"
+                        onClick={() => updateSelectedData("align", align)}
+                      >
+                        {align}
+                      </Button>
+                    ))}
+                  </div>
                 </div>
               </>
             ) : null}

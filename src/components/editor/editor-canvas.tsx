@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
 import { Rnd } from "react-rnd";
 
 import { resolveFontFamily } from "@/features/editor/fonts";
@@ -732,7 +732,7 @@ export function EditorCanvasStatic({
                       height: Number(ref.style.height.replace("px", "")),
                     });
                   }}
-                  onClick={(event) => {
+                  onClick={(event: MouseEvent) => {
                     event.stopPropagation();
                     onElementSelect?.(element.id);
                   }}

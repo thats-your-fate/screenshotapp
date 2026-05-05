@@ -18,7 +18,7 @@ export default async function ProjectsPage() {
                 <h2 className="text-lg text-slate-900">{project.name}</h2>
                 <p className="text-sm text-slate-600">Template: {project.template.name}</p>
               </div>
-              <Link href={`/app/projects/${project.id}/editor`} className="rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white">
+              <Link href={`/app/projects/${project.id}/editor`} className="rounded-md !bg-slate-900 px-3 py-2 text-sm font-semibold !text-white hover:!bg-slate-700">
                 Open Editor
               </Link>
             </div>

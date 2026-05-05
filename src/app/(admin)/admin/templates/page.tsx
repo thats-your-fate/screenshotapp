@@ -15,7 +15,7 @@ export default async function AdminTemplatesPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl text-slate-900">Templates</h1>
-        <Link href="/admin/templates/new" className="rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white">Create template</Link>
+        <Link href="/admin/templates/new" className="rounded-md !bg-slate-900 px-3 py-2 text-sm font-semibold !text-white hover:!bg-slate-700">Create template</Link>
       </div>
       <div className="space-y-2">
         {templates.map((template) => (

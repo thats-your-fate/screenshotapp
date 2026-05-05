@@ -22,7 +22,7 @@ export default async function UserTemplatesPage() {
         {isAdmin ? (
           <Link
             href="/app/templates/new"
-            className="rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white"
+            className="rounded-md !bg-slate-900 px-3 py-2 text-sm font-semibold !text-white hover:!bg-slate-700"
           >
             Create Template
           </Link>
@@ -46,7 +46,7 @@ export default async function UserTemplatesPage() {
                     <input type="hidden" name="templateId" value={template.id} />
                     <button
                       type="submit"
-                      className="w-full rounded-md bg-slate-900 px-3 py-2 text-sm font-semibold text-white"
+                      className="w-full rounded-md !bg-slate-900 px-3 py-2 text-sm font-semibold !text-white hover:!bg-slate-700"
                       disabled={template.status === "DRAFT"}
                       title={template.status === "DRAFT" ? "Publish template first." : undefined}
                     >

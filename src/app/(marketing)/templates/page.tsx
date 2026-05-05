@@ -1,21 +1,105 @@
+/* eslint-disable @next/next/no-img-element */
+import { TemplateListPreview } from "@/components/editor/template-list-preview";
 import { listPublishedTemplates } from "@/features/templates/service";
+
+const deviceBadges = ["iPhone 13", "iPhone 14", "iPhone 15", "iPhone 16", "iPhone 17"];
+
+const featuredTemplateNames = [
+  "Seed Background: Abstract Technological Background Consisting Of A 2026 03 24 04 14 23 Utc",
+  "Seed Background: Autumn Background Brown Wall Room Studio With Shad 2026 03 25 04 46 03 Utc",
+  "Seed Background: Background Beige Wall Studio Summer Background Pea 2026 01 08 05 53 41 Utc",
+  "Seed Background: Beige And Green Gradient Background With Copy Spac 2026 03 18 11 02 07 Utc",
+  "Seed Background: Blue Curve Frame Template On A Gray Background 2026 03 18 12 02 13 Utc",
+  "Seed Background: Blue Curve Patterned Background Illustration 2026 03 18 09 54 38 Utc",
+  "Seed Background: Creative Blue Linear Art On White Background Copy 2026 01 11 08 35 47 Utc",
+];
 
 export default async function MarketingTemplatesPage() {
   const templates = await listPublishedTemplates();
+  const templatesByName = new Map(templates.map((template) => [template.name, template]));
+  const featuredTemplates = featuredTemplateNames.flatMap((name) => {
+    const template = templatesByName.get(name);
+    return template ? [template] : [];
+  });
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-6 py-14">
-      <h1 className="text-4xl text-slate-900">Template Showcase</h1>
-      <p className="mt-2 text-slate-600">Published templates users can start from.</p>
-      <div className="mt-8 grid gap-4 md:grid-cols-3">
-        {templates.map((template) => (
-          <article key={template.id} className="rounded-xl border border-slate-200 bg-white p-4">
-            <h2 className="text-xl text-slate-900">{template.name}</h2>
-            <p className="mt-2 text-sm text-slate-600">{template.description || "No description yet."}</p>
-            <p className="mt-4 text-xs uppercase tracking-wide text-slate-500">{template.canvasWidth} x {template.canvasHeight}</p>
-          </article>
-        ))}
-      </div>
+    <div className="bg-white">
+      <section
+        className="fintech-app-home-section-1 position-relative overflow-hidden pt-250 pb-160 rounded-bottom-5 z-4"
+        data-background="assets/imgs/pages/fintech-app/page-home/home-section-1/img-bg.png"
+        style={{
+          backgroundColor: "var(--tc-theme-primary)",
+          backgroundImage: "url('/assets/imgs/pages/fintech-app/page-home/home-section-1/img-bg.png')",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+        }}
+      >
+        <img
+          className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover z-0"
+          src="/assets/imgs/pages/fintech-app/page-home/home-section-1/img-bg.png"
+          alt=""
+        />
+        <div className="container position-relative z-2 pt-8 text-center overflow-hidden">
+          <span className="content-top btn-text text-white">TEMPLATE LIBRARY</span>
+          <h1 className="title-stroke my-3 text-primary">
+            Templates
+            <span className="text-white">
+              {" "}for <br />
+              polished
+            </span>
+            <span className="text-secondary"> launches </span>
+          </h1>
+          <p className="fs-5 text-white opacity-75 mb-0 mx-auto" style={{ maxWidth: 720 }}>
+            Browse published screenshot templates from the seeded database and pick a starting point for your next store update.
+          </p>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-7xl px-5 py-16 sm:px-6 lg:px-8">
+        <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-sm font-black uppercase tracking-wide text-slate-500">Featured templates</p>
+            <h2 className="mt-2 text-3xl font-black text-slate-950">Demo screenshot sets</h2>
+          </div>
+          <p className="max-w-xl text-sm leading-6 text-slate-600">
+            A curated set of published seed templates for the public frontend. Each preview shows the multi-screen screenshot layout.
+          </p>
+        </div>
+
+        <div className="grid gap-6">
+          {featuredTemplates.map((template) => (
+            <article key={template.id} className="overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-sm">
+              <TemplateListPreview screens={template.editorScreens} />
+              <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                <div className="min-w-0">
+                  <h3 className="text-2xl font-black leading-tight text-slate-950">{template.name}</h3>
+                  <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-600">{template.description || "No description yet."}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {deviceBadges.map((device) => (
+                      <span key={device} className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-black uppercase tracking-wide text-slate-600">
+                        {device}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <a
+                  href="/sign-up"
+                  className="inline-flex shrink-0 items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-slate-800"
+                >
+                  Use this template
+                </a>
+              </div>
+            </article>
+          ))}
+
+          {featuredTemplates.length === 0 ? (
+            <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-8 text-center text-slate-600">
+              No featured templates matched the configured names yet.
+            </div>
+          ) : null}
+        </div>
+      </section>
     </div>
   );
 }

@@ -10,6 +10,8 @@ import { FONT_OPTIONS } from "@/features/editor/fonts";
 import type { EditorElement, EditorScreen } from "@/features/editor/types";
 import { saveTemplateElementsAction } from "@/features/templates/actions";
 
+const TEXT_ALIGN_OPTIONS = ["left", "center", "right"] as const;
+
 function createElement(
   kind: "TEXT" | "IMAGE" | "DEVICE_SCREENSHOT_SLOT",
   zIndex: number,
@@ -773,6 +775,22 @@ export function AdminTemplateEditor({
                       className="mt-1 h-10"
                     />
                   </label>
+                </div>
+                <div>
+                  <p className="mb-2 text-xs font-medium text-slate-700">Text alignment</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {TEXT_ALIGN_OPTIONS.map((align) => (
+                      <Button
+                        key={align}
+                        type="button"
+                        variant={(selected.data.align || "left") === align ? "primary" : "ghost"}
+                        className="border border-slate-200 px-2 py-1 text-xs capitalize"
+                        onClick={() => updateSelectedData("align", align)}
+                      >
+                        {align}
+                      </Button>
+                    ))}
+                  </div>
                 </div>
               </>
             ) : null}

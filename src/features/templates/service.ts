@@ -43,7 +43,7 @@ function mapTemplateElement(element: {
     parsedData = {};
   }
 
-  const cleanData = { ...parsedData };
+  const cleanData: Record<string, unknown> = { ...parsedData };
   delete cleanData[SCREEN_ID_META_KEY];
   delete cleanData[SCREEN_NAME_META_KEY];
 
@@ -61,7 +61,7 @@ function mapTemplateElement(element: {
     locked: element.locked,
     visible: element.visible,
     editableByUser: element.editableByUser,
-    data: cleanData,
+    data: cleanData as EditorElement["data"],
   };
 }
 
