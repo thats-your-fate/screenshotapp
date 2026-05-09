@@ -91,7 +91,7 @@ export default function MarketingPage() {
             </div>
           </div>
         </div>
-        <div className="banner position-absolute bottom-0 start-40 z-1 ps-10 d-none d-lg-block">
+        <div className="banner position-absolute bottom-0 start-40 z-1 ps-10 d-none d-lg-block" style={{ transform: "translateY(96px)" }}>
           <img src="/assets/imgs/pages/fintech-app/page-home/home-section-1/img-phone.png" alt="AppShot mobile preview" />
         </div>
       </section>

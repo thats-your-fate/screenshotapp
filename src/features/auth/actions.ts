@@ -77,6 +77,14 @@ export async function signInAction(formData: FormData) {
   return { ok: true };
 }
 
+export async function signInWithGoogleAction(formData: FormData) {
+  const redirectTo = formData.get("redirectTo");
+
+  await signIn("google", {
+    redirectTo: typeof redirectTo === "string" && redirectTo.length > 0 ? redirectTo : "/app",
+  });
+}
+
 export async function signOutAction() {
   await signOut({ redirectTo: "/" });
   redirect("/");
