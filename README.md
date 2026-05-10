@@ -177,7 +177,68 @@ npm run dev
 ```bash
 npm run lint
 npm run build
+npm run plesk:build
 npm run db:studio
+```
+
+## Plesk Deployment Notes
+
+Use Node 22 for this project. The repo includes `.node-version` and `package.json` engines for Node 22, but Plesk may still need the Node version selected in the domain's Node.js settings.
+
+If Plesk shows `nodenv: node: command not found`, select Node 22 in Plesk or run:
+
+```bash
+cd /var/www/vhosts/appshotstudio.cc/httpdocs
+nodenv local 22
+nodenv rehash
+node -v
+npm -v
+```
+
+Recommended Plesk Node.js settings:
+
+```text
+Application root: /httpdocs
+Document root: /httpdocs/public
+Application startup file: server.js
+Application mode: production
+```
+
+Before building on a fresh SQLite database, create the Prisma tables:
+
+```bash
+npm install
+npm run db:push
+npm run db:seed
+npm run build
+```
+
+`npm run db:seed` is optional, but the public template pages will be empty without seeded demo templates. You can also use the combined Plesk build command:
+
+```bash
+npm run plesk:build
+```
+
+For production auth, use a separate Auth.js secret, not the Google OAuth secret:
+
+```bash
+openssl rand -base64 32
+```
+
+Example production env:
+
+```env
+AUTH_URL="https://appshotstudio.cc"
+NEXTAUTH_URL="https://appshotstudio.cc"
+AUTH_SECRET="generated-base64-secret"
+AUTH_GOOGLE_ID="your-client-id.apps.googleusercontent.com"
+AUTH_GOOGLE_SECRET="your-google-client-secret"
+```
+
+Add this Authorized redirect URI to the Google OAuth client:
+
+```text
+https://appshotstudio.cc/api/auth/callback/google
 ```
 
 ## Architectural Decisions
