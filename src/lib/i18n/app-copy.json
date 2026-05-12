@@ -1,0 +1,374 @@
+{
+  "en": {
+    "label": "English",
+    "shortLabel": "EN",
+    "flag": "🇺🇸",
+    "shell": {
+      "userArea": "User Area",
+      "publicSite": "Public site",
+      "signOut": "Sign out",
+      "language": "Language",
+      "nav": {
+        "dashboard": "Dashboard",
+        "templates": "Templates",
+        "projects": "My Projects",
+        "exports": "Exports",
+        "settings": "Settings"
+      }
+    },
+    "auth": {
+      "backToSite": "Back to site",
+      "signInTitle": "Sign in",
+      "signInIntro": "Access your template workspace.",
+      "signUpTitle": "Create account",
+      "signUpIntro": "Start generating App Store screenshots from templates.",
+      "noAccount": "No account?",
+      "createOne": "Create one",
+      "alreadyRegistered": "Already registered?",
+      "signInLink": "Sign in",
+      "continueWithGoogle": "Continue with Google",
+      "proceedWithGoogle": "Proceed with Google",
+      "or": "or",
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "signingIn": "Signing in...",
+      "creatingAccount": "Creating account..."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "publishedTemplates": "Published templates",
+      "myProjects": "My projects",
+      "exports": "Exports"
+    },
+    "templates": {
+      "title": "Templates Gallery",
+      "createTemplate": "Create Template",
+      "deviceType": "Device type",
+      "deviceHelp": "Show iPhone or Android screenshot templates.",
+      "allDevices": "All devices",
+      "apply": "Apply",
+      "device": "Device",
+      "noDescription": "No description yet.",
+      "createProject": "Create Project",
+      "publishFirst": "Publish template first.",
+      "editMeta": "Edit Meta",
+      "openEditor": "Open Editor",
+      "publishTemplate": "Publish Template",
+      "moveToDraft": "Move To Draft",
+      "archive": "Archive",
+      "empty": "No templates match this device filter."
+    },
+    "projects": {
+      "title": "My Projects",
+      "template": "Template",
+      "openEditor": "Open Editor",
+      "empty": "No projects yet."
+    },
+    "exports": {
+      "title": "Export History",
+      "scale": "scale",
+      "openFile": "Open file",
+      "empty": "No exports yet."
+    },
+    "settings": {
+      "title": "Account Settings",
+      "intro": "Placeholder for profile updates, team invites, and billing integration.",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role"
+    },
+    "editor": {
+      "templateEditor": "Template Editor"
+    },
+    "templateForm": {
+      "createTitle": "Create Template",
+      "editTitle": "Edit Template Metadata",
+      "name": "Name",
+      "slug": "slug",
+      "description": "Description",
+      "category": "Category",
+      "create": "Create",
+      "save": "Save metadata"
+    }
+  },
+  "de": {
+    "label": "Deutsch",
+    "shortLabel": "DE",
+    "flag": "🇩🇪",
+    "shell": {
+      "userArea": "Benutzerbereich",
+      "publicSite": "Öffentliche Seite",
+      "signOut": "Abmelden",
+      "language": "Sprache",
+      "nav": {
+        "dashboard": "Dashboard",
+        "templates": "Vorlagen",
+        "projects": "Meine Projekte",
+        "exports": "Exporte",
+        "settings": "Einstellungen"
+      }
+    },
+    "auth": {
+      "backToSite": "Zurück zur Seite",
+      "signInTitle": "Anmelden",
+      "signInIntro": "Greifen Sie auf Ihren Vorlagen-Workspace zu.",
+      "signUpTitle": "Konto erstellen",
+      "signUpIntro": "Erstellen Sie App-Store-Screenshots aus Vorlagen.",
+      "noAccount": "Noch kein Konto?",
+      "createOne": "Konto erstellen",
+      "alreadyRegistered": "Bereits registriert?",
+      "signInLink": "Anmelden",
+      "continueWithGoogle": "Mit Google fortfahren",
+      "proceedWithGoogle": "Mit Google fortfahren",
+      "or": "oder",
+      "name": "Name",
+      "email": "E-Mail",
+      "password": "Passwort",
+      "signingIn": "Anmeldung...",
+      "creatingAccount": "Konto wird erstellt..."
+    },
+    "dashboard": {
+      "title": "Dashboard",
+      "publishedTemplates": "Veröffentlichte Vorlagen",
+      "myProjects": "Meine Projekte",
+      "exports": "Exporte"
+    },
+    "templates": {
+      "title": "Vorlagen-Galerie",
+      "createTemplate": "Vorlage erstellen",
+      "deviceType": "Gerätetyp",
+      "deviceHelp": "Zeigen Sie iPhone- oder Android-Screenshot-Vorlagen.",
+      "allDevices": "Alle Geräte",
+      "apply": "Anwenden",
+      "device": "Gerät",
+      "noDescription": "Noch keine Beschreibung.",
+      "createProject": "Projekt erstellen",
+      "publishFirst": "Vorlage zuerst veröffentlichen.",
+      "editMeta": "Metadaten bearbeiten",
+      "openEditor": "Editor öffnen",
+      "publishTemplate": "Vorlage veröffentlichen",
+      "moveToDraft": "In Entwurf verschieben",
+      "archive": "Archivieren",
+      "empty": "Keine Vorlagen passen zu diesem Gerätefilter."
+    },
+    "projects": {
+      "title": "Meine Projekte",
+      "template": "Vorlage",
+      "openEditor": "Editor öffnen",
+      "empty": "Noch keine Projekte."
+    },
+    "exports": {
+      "title": "Exportverlauf",
+      "scale": "Skalierung",
+      "openFile": "Datei öffnen",
+      "empty": "Noch keine Exporte."
+    },
+    "settings": {
+      "title": "Kontoeinstellungen",
+      "intro": "Platzhalter für Profilupdates, Team-Einladungen und Abrechnung.",
+      "name": "Name",
+      "email": "E-Mail",
+      "role": "Rolle"
+    },
+    "editor": {
+      "templateEditor": "Vorlagen-Editor"
+    },
+    "templateForm": {
+      "createTitle": "Vorlage erstellen",
+      "editTitle": "Vorlagen-Metadaten bearbeiten",
+      "name": "Name",
+      "slug": "Slug",
+      "description": "Beschreibung",
+      "category": "Kategorie",
+      "create": "Erstellen",
+      "save": "Metadaten speichern"
+    }
+  },
+  "pt-br": {
+    "label": "Português",
+    "shortLabel": "PT",
+    "flag": "🇧🇷",
+    "shell": {
+      "userArea": "Área do usuário",
+      "publicSite": "Site público",
+      "signOut": "Sair",
+      "language": "Idioma",
+      "nav": {
+        "dashboard": "Painel",
+        "templates": "Modelos",
+        "projects": "Meus projetos",
+        "exports": "Exportações",
+        "settings": "Configurações"
+      }
+    },
+    "auth": {
+      "backToSite": "Voltar ao site",
+      "signInTitle": "Entrar",
+      "signInIntro": "Acesse seu workspace de modelos.",
+      "signUpTitle": "Criar conta",
+      "signUpIntro": "Comece a gerar screenshots para App Store usando modelos.",
+      "noAccount": "Não tem conta?",
+      "createOne": "Criar uma",
+      "alreadyRegistered": "Já registrado?",
+      "signInLink": "Entrar",
+      "continueWithGoogle": "Continuar com Google",
+      "proceedWithGoogle": "Prosseguir com Google",
+      "or": "ou",
+      "name": "Nome",
+      "email": "E-mail",
+      "password": "Senha",
+      "signingIn": "Entrando...",
+      "creatingAccount": "Criando conta..."
+    },
+    "dashboard": {
+      "title": "Painel",
+      "publishedTemplates": "Modelos publicados",
+      "myProjects": "Meus projetos",
+      "exports": "Exportações"
+    },
+    "templates": {
+      "title": "Galeria de modelos",
+      "createTemplate": "Criar modelo",
+      "deviceType": "Tipo de dispositivo",
+      "deviceHelp": "Mostrar modelos de screenshot para iPhone ou Android.",
+      "allDevices": "Todos os dispositivos",
+      "apply": "Aplicar",
+      "device": "Dispositivo",
+      "noDescription": "Ainda sem descrição.",
+      "createProject": "Criar projeto",
+      "publishFirst": "Publique o modelo primeiro.",
+      "editMeta": "Editar metadados",
+      "openEditor": "Abrir editor",
+      "publishTemplate": "Publicar modelo",
+      "moveToDraft": "Mover para rascunho",
+      "archive": "Arquivar",
+      "empty": "Nenhum modelo corresponde a este filtro."
+    },
+    "projects": {
+      "title": "Meus projetos",
+      "template": "Modelo",
+      "openEditor": "Abrir editor",
+      "empty": "Ainda não há projetos."
+    },
+    "exports": {
+      "title": "Histórico de exportações",
+      "scale": "escala",
+      "openFile": "Abrir arquivo",
+      "empty": "Ainda não há exportações."
+    },
+    "settings": {
+      "title": "Configurações da conta",
+      "intro": "Espaço reservado para atualizações de perfil, convites de equipe e cobrança.",
+      "name": "Nome",
+      "email": "E-mail",
+      "role": "Função"
+    },
+    "editor": {
+      "templateEditor": "Editor de modelo"
+    },
+    "templateForm": {
+      "createTitle": "Criar modelo",
+      "editTitle": "Editar metadados do modelo",
+      "name": "Nome",
+      "slug": "slug",
+      "description": "Descrição",
+      "category": "Categoria",
+      "create": "Criar",
+      "save": "Salvar metadados"
+    }
+  },
+  "es": {
+    "label": "Español",
+    "shortLabel": "ES",
+    "flag": "🇪🇸",
+    "shell": {
+      "userArea": "Área de usuario",
+      "publicSite": "Sitio público",
+      "signOut": "Cerrar sesión",
+      "language": "Idioma",
+      "nav": {
+        "dashboard": "Panel",
+        "templates": "Plantillas",
+        "projects": "Mis proyectos",
+        "exports": "Exportaciones",
+        "settings": "Configuración"
+      }
+    },
+    "auth": {
+      "backToSite": "Volver al sitio",
+      "signInTitle": "Iniciar sesión",
+      "signInIntro": "Accede a tu workspace de plantillas.",
+      "signUpTitle": "Crear cuenta",
+      "signUpIntro": "Empieza a generar screenshots para App Store desde plantillas.",
+      "noAccount": "¿No tienes cuenta?",
+      "createOne": "Crear una",
+      "alreadyRegistered": "¿Ya estás registrado?",
+      "signInLink": "Iniciar sesión",
+      "continueWithGoogle": "Continuar con Google",
+      "proceedWithGoogle": "Continuar con Google",
+      "or": "o",
+      "name": "Nombre",
+      "email": "Email",
+      "password": "Contraseña",
+      "signingIn": "Iniciando sesión...",
+      "creatingAccount": "Creando cuenta..."
+    },
+    "dashboard": {
+      "title": "Panel",
+      "publishedTemplates": "Plantillas publicadas",
+      "myProjects": "Mis proyectos",
+      "exports": "Exportaciones"
+    },
+    "templates": {
+      "title": "Galería de plantillas",
+      "createTemplate": "Crear plantilla",
+      "deviceType": "Tipo de dispositivo",
+      "deviceHelp": "Muestra plantillas de screenshots para iPhone o Android.",
+      "allDevices": "Todos los dispositivos",
+      "apply": "Aplicar",
+      "device": "Dispositivo",
+      "noDescription": "Sin descripción todavía.",
+      "createProject": "Crear proyecto",
+      "publishFirst": "Publica la plantilla primero.",
+      "editMeta": "Editar metadatos",
+      "openEditor": "Abrir editor",
+      "publishTemplate": "Publicar plantilla",
+      "moveToDraft": "Mover a borrador",
+      "archive": "Archivar",
+      "empty": "Ninguna plantilla coincide con este filtro."
+    },
+    "projects": {
+      "title": "Mis proyectos",
+      "template": "Plantilla",
+      "openEditor": "Abrir editor",
+      "empty": "Todavía no hay proyectos."
+    },
+    "exports": {
+      "title": "Historial de exportaciones",
+      "scale": "escala",
+      "openFile": "Abrir archivo",
+      "empty": "Todavía no hay exportaciones."
+    },
+    "settings": {
+      "title": "Configuración de la cuenta",
+      "intro": "Espacio reservado para actualizaciones de perfil, invitaciones de equipo y facturación.",
+      "name": "Nombre",
+      "email": "Email",
+      "role": "Rol"
+    },
+    "editor": {
+      "templateEditor": "Editor de plantillas"
+    },
+    "templateForm": {
+      "createTitle": "Crear plantilla",
+      "editTitle": "Editar metadatos de la plantilla",
+      "name": "Nombre",
+      "slug": "slug",
+      "description": "Descripción",
+      "category": "Categoría",
+      "create": "Crear",
+      "save": "Guardar metadatos"
+    }
+  }
+}

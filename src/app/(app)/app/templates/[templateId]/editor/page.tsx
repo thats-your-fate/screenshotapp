@@ -4,6 +4,7 @@ import { AdminTemplateEditor } from "@/components/editor/admin-template-editor";
 import { listBackgroundLibraryItems } from "@/features/assets/background-library";
 import { requireUser } from "@/features/auth/server";
 import { getTemplateForAdmin } from "@/features/templates/service";
+import { getAppCopy } from "@/lib/i18n/app";
 
 export default async function AppTemplateEditorPage({
   params,
@@ -18,6 +19,7 @@ export default async function AppTemplateEditorPage({
   const { templateId } = await params;
   const template = await getTemplateForAdmin(templateId);
   const backgroundLibrary = await listBackgroundLibraryItems();
+  const { copy } = await getAppCopy();
 
   if (!template) {
     notFound();
@@ -25,7 +27,7 @@ export default async function AppTemplateEditorPage({
 
   return (
     <div className="space-y-4">
-      <h1 className="text-3xl text-slate-900">Template Editor: {template.name}</h1>
+      <h1 className="text-3xl text-slate-900">{copy.editor.templateEditor}: {template.name}</h1>
       <AdminTemplateEditor
         templateId={template.id}
         canvasWidth={template.canvasWidth}

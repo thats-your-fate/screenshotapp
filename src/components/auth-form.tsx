@@ -7,17 +7,31 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 type ActionState = { ok: boolean; error?: string };
+type AuthFormCopy = {
+  continueWithGoogle: string;
+  proceedWithGoogle: string;
+  or: string;
+  name: string;
+  email: string;
+  password: string;
+  signInTitle: string;
+  signUpTitle: string;
+  signingIn: string;
+  creatingAccount: string;
+};
 
 export function SignInForm({
   action,
   googleAction,
   googleEnabled = false,
   redirectTo,
+  copy,
 }: {
   action: (formData: FormData) => Promise<ActionState>;
   googleAction?: (formData: FormData) => Promise<void>;
   googleEnabled?: boolean;
   redirectTo?: string;
+  copy: AuthFormCopy;
 }) {
   const [state, formAction, pending] = useActionState(
     async (_state: ActionState, formData: FormData) => action(formData),
@@ -37,12 +51,12 @@ export function SignInForm({
               onClick={() => trackEvent("login_started", { method: "google" })}
             >
               <span className="mr-2 text-base font-bold">G</span>
-              Continue with Google
+              {copy.continueWithGoogle}
             </Button>
           </form>
           <div className="flex items-center gap-3 text-xs uppercase tracking-wide text-slate-400">
             <span className="h-px flex-1 bg-slate-200" />
-            <span>or</span>
+            <span>{copy.or}</span>
             <span className="h-px flex-1 bg-slate-200" />
           </div>
         </>
@@ -55,16 +69,16 @@ export function SignInForm({
       >
         <input type="hidden" name="redirectTo" value={redirectTo || "/app"} />
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Email</label>
+          <label className="mb-1 block text-sm font-medium text-slate-700">{copy.email}</label>
           <Input name="email" type="email" required autoComplete="email" />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Password</label>
+          <label className="mb-1 block text-sm font-medium text-slate-700">{copy.password}</label>
           <Input name="password" type="password" required autoComplete="current-password" />
         </div>
         {state.error ? <p className="text-sm text-rose-600">{state.error}</p> : null}
         <Button type="submit" className="w-full" disabled={pending}>
-          {pending ? "Signing in..." : "Sign in"}
+          {pending ? copy.signingIn : copy.signInTitle}
         </Button>
       </form>
     </div>
@@ -76,11 +90,13 @@ export function SignUpForm({
   googleAction,
   googleEnabled = false,
   redirectTo,
+  copy,
 }: {
   action: (formData: FormData) => Promise<ActionState>;
   googleAction?: (formData: FormData) => Promise<void>;
   googleEnabled?: boolean;
   redirectTo?: string;
+  copy: AuthFormCopy;
 }) {
   const [state, formAction, pending] = useActionState(
     async (_state: ActionState, formData: FormData) => action(formData),
@@ -100,12 +116,12 @@ export function SignUpForm({
               onClick={() => trackEvent("sign_up_started", { method: "google" })}
             >
               <span className="mr-2 text-base font-bold">G</span>
-              Proceed with Google
+              {copy.proceedWithGoogle}
             </Button>
           </form>
           <div className="flex items-center gap-3 text-xs uppercase tracking-wide text-slate-400">
             <span className="h-px flex-1 bg-slate-200" />
-            <span>or</span>
+            <span>{copy.or}</span>
             <span className="h-px flex-1 bg-slate-200" />
           </div>
         </>
@@ -118,20 +134,20 @@ export function SignUpForm({
       >
         <input type="hidden" name="redirectTo" value={redirectTo || "/app"} />
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Name</label>
+          <label className="mb-1 block text-sm font-medium text-slate-700">{copy.name}</label>
           <Input name="name" required autoComplete="name" />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Email</label>
+          <label className="mb-1 block text-sm font-medium text-slate-700">{copy.email}</label>
           <Input name="email" type="email" required autoComplete="email" />
         </div>
         <div>
-          <label className="mb-1 block text-sm font-medium text-slate-700">Password</label>
+          <label className="mb-1 block text-sm font-medium text-slate-700">{copy.password}</label>
           <Input name="password" type="password" required autoComplete="new-password" />
         </div>
         {state.error ? <p className="text-sm text-rose-600">{state.error}</p> : null}
         <Button type="submit" className="w-full" disabled={pending}>
-          {pending ? "Creating account..." : "Create account"}
+          {pending ? copy.creatingAccount : copy.signUpTitle}
         </Button>
       </form>
     </div>
