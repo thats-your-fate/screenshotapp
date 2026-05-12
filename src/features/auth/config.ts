@@ -120,11 +120,8 @@ export const authConfig = {
       return true;
     },
     async jwt({ token, user }) {
-      if (user) {
-        token.email = user.email ?? token.email;
-      }
-
-      if (token.email) {
+      if (user?.email) {
+        token.email = user.email;
         const appUser = await db.user.findUnique({ where: { email: token.email } });
         if (appUser) {
           token.id = appUser.id;
