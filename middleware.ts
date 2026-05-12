@@ -11,7 +11,7 @@ export default auth((req) => {
 
   if ((isAppRoute || isAdminRoute) && !user) {
     const signInUrl = new URL("/sign-in", req.nextUrl.origin);
-    signInUrl.searchParams.set("redirectTo", pathname);
+    signInUrl.searchParams.set("redirectTo", `${pathname}${req.nextUrl.search}`);
     return NextResponse.redirect(signInUrl);
   }
 
@@ -19,8 +19,9 @@ export default auth((req) => {
     return NextResponse.redirect(new URL("/app", req.nextUrl.origin));
   }
 
-  if (pathname === "/sign-in" && user) {
-    const nextPath = user.role === "ADMIN" ? "/admin" : "/app";
+  if ((pathname === "/sign-in" || pathname === "/sign-up") && user) {
+    const redirectTo = req.nextUrl.searchParams.get("redirectTo");
+    const nextPath = redirectTo?.startsWith("/") ? redirectTo : user.role === "ADMIN" ? "/admin" : "/app";
     return NextResponse.redirect(new URL(nextPath, req.nextUrl.origin));
   }
 
@@ -28,5 +29,5 @@ export default auth((req) => {
 });
 
 export const config = {
-  matcher: ["/app/:path*", "/admin/:path*", "/sign-in"],
+  matcher: ["/app/:path*", "/admin/:path*", "/sign-in", "/sign-up"],
 };

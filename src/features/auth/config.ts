@@ -4,6 +4,7 @@ import Google from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 
 import { db } from "@/lib/db/prisma";
+import { trackServerEvent } from "@/lib/analytics/ga-server";
 import { signInSchema } from "@/features/auth/validations";
 
 const googleClientId = process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID;
@@ -122,6 +123,16 @@ export const authConfig = {
         session.user.role = token.role as "ADMIN" | "USER";
       }
       return session;
+    },
+  },
+  events: {
+    async signIn({ user, account }) {
+      const appUser = user.email ? await db.user.findUnique({ where: { email: user.email } }) : null;
+      await trackServerEvent({
+        name: "login_completed",
+        userId: appUser?.id || user.id,
+        params: { method: account?.provider || "unknown" },
+      });
     },
   },
 } satisfies NextAuthConfig;

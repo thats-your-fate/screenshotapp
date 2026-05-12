@@ -8,6 +8,8 @@ import type { EditorCanvas, EditorElement } from "@/features/editor/types";
 
 const IPHONE_FRAME_SVG_PATH = "/devices/iphone-frame.svg";
 const IPHONE_SCREEN_MASK_SVG_PATH = "/devices/iphone-screen-mask.svg";
+const ANDROID_FRAME_PNG_PATH = "/devices/%E2%80%94Pngtree%E2%80%94black%20mobile%20phone%20transparent_9161005(1).png";
+const ANDROID_SCREEN_MASK_SVG_PATH = "/devices/android-screen-mask.svg";
 type DeviceLayerTarget = "frame" | "screen" | "background";
 type CommonBackgroundSpan = { index: number; total: number; segmentGapX?: number };
 
@@ -31,8 +33,24 @@ function normalizeAngleDelta(angle: number) {
   return normalized;
 }
 
-function isIphoneDeviceElement(element: EditorElement) {
-  return element.kind === "DEVICE_SCREENSHOT_SLOT" || element.data.deviceType === "iphone";
+function isDeviceElement(element: EditorElement) {
+  return element.kind === "DEVICE_SCREENSHOT_SLOT" || element.data.deviceType === "iphone" || element.data.deviceType === "android";
+}
+
+function getDeviceAssets(deviceType: EditorElement["data"]["deviceType"]) {
+  if (deviceType === "android") {
+    return {
+      framePath: ANDROID_FRAME_PNG_PATH,
+      maskPath: ANDROID_SCREEN_MASK_SVG_PATH,
+      alt: "Android frame",
+    };
+  }
+
+  return {
+    framePath: IPHONE_FRAME_SVG_PATH,
+    maskPath: IPHONE_SCREEN_MASK_SVG_PATH,
+    alt: "iPhone frame",
+  };
 }
 
 function getSharedDeviceRenderX(
@@ -40,7 +58,7 @@ function getSharedDeviceRenderX(
   canvas: EditorCanvas,
   commonBackgroundSpan?: CommonBackgroundSpan,
 ) {
-  if (!isIphoneDeviceElement(element)) return element.x;
+  if (!isDeviceElement(element)) return element.x;
   if (!element.data.sharedDevicePairId) return element.x;
   if (typeof element.data.sharedDeviceStartIndex !== "number") return element.x;
   if (!commonBackgroundSpan) return element.x;
@@ -60,7 +78,7 @@ function getSharedDeviceRenderY(
   element: EditorElement,
   commonBackgroundSpan?: CommonBackgroundSpan,
 ) {
-  if (!isIphoneDeviceElement(element)) return element.y;
+  if (!isDeviceElement(element)) return element.y;
   if (!element.data.sharedDevicePairId) return element.y;
   if (typeof element.data.sharedDeviceStartIndex !== "number") return element.y;
   if (!commonBackgroundSpan) return element.y;
@@ -72,7 +90,7 @@ function getSharedDeviceRenderY(
   return element.y;
 }
 
-function renderIphoneDeviceContent({
+function renderDeviceContent({
   element,
   editable,
   selected,
@@ -95,6 +113,7 @@ function renderIphoneDeviceContent({
   const maskOffsetX = element.data.deviceMaskOffsetX || 0;
   const maskOffsetY = element.data.deviceMaskOffsetY || 0;
   const maskScale = element.data.deviceMaskScale || 1;
+  const deviceAssets = getDeviceAssets(element.data.deviceType);
 
   const canEditScreenLayer = editable && selected && deviceLayerTarget === "screen";
   const canEditBackgroundLayer = editable && selected && deviceLayerTarget === "background";
@@ -115,8 +134,8 @@ function renderIphoneDeviceContent({
         className="absolute inset-0 overflow-hidden"
         style={{
           backgroundColor: element.data.deviceBackgroundColor || "#0b1020",
-          WebkitMaskImage: `url(${IPHONE_SCREEN_MASK_SVG_PATH})`,
-          maskImage: `url(${IPHONE_SCREEN_MASK_SVG_PATH})`,
+          WebkitMaskImage: `url(${deviceAssets.maskPath})`,
+          maskImage: `url(${deviceAssets.maskPath})`,
           WebkitMaskRepeat: "no-repeat",
           maskRepeat: "no-repeat",
           WebkitMaskSize: "100% 100%",
@@ -281,8 +300,8 @@ function renderIphoneDeviceContent({
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={IPHONE_FRAME_SVG_PATH}
-        alt="iPhone frame"
+        src={deviceAssets.framePath}
+        alt={deviceAssets.alt}
         loading="eager"
         draggable={false}
         className="pointer-events-none absolute inset-0 h-full w-full select-none"
@@ -332,8 +351,8 @@ function renderElementContent({
     );
   }
 
-  if (isIphoneDeviceElement(element)) {
-    return renderIphoneDeviceContent({
+  if (isDeviceElement(element)) {
+    return renderDeviceContent({
       element,
       editable,
       selected,
@@ -475,7 +494,7 @@ export function EditorCanvasStage({
                 const renderZIndex = isCommonBackground ? -1 : element.zIndex;
                 const editable = canTransform(element);
                 const selected = selectedId === element.id;
-                const editingInnerLayer = selected && isIphoneDeviceElement(element) && deviceLayerTarget !== "frame";
+                const editingInnerLayer = selected && isDeviceElement(element) && deviceLayerTarget !== "frame";
                 const canMoveFrame = editable && !editingInnerLayer && !isCommonBackground;
                 const canRotateFrame = editable && !isCommonBackground;
                 return (

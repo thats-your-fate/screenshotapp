@@ -1,26 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
+import { TrackedLink } from "@/components/analytics/tracked-link";
 import { TemplateListPreview } from "@/components/editor/template-list-preview";
 import { listPublishedTemplates } from "@/features/templates/service";
 
-const deviceBadges = ["iPhone 13", "iPhone 14", "iPhone 15", "iPhone 16", "iPhone 17"];
-
-const featuredTemplateNames = [
-  "Seed Background: Abstract Technological Background Consisting Of A 2026 03 24 04 14 23 Utc",
-  "Seed Background: Autumn Background Brown Wall Room Studio With Shad 2026 03 25 04 46 03 Utc",
-  "Seed Background: Background Beige Wall Studio Summer Background Pea 2026 01 08 05 53 41 Utc",
-  "Seed Background: Beige And Green Gradient Background With Copy Spac 2026 03 18 11 02 07 Utc",
-  "Seed Background: Blue Curve Frame Template On A Gray Background 2026 03 18 12 02 13 Utc",
-  "Seed Background: Blue Curve Patterned Background Illustration 2026 03 18 09 54 38 Utc",
-  "Seed Background: Creative Blue Linear Art On White Background Copy 2026 01 11 08 35 47 Utc",
-];
+const deviceBadges = ["iPhone 13", "iPhone 14", "iPhone 15", "iPhone 16", "iPhone 17", "Android"];
 
 export default async function MarketingTemplatesPage() {
   const templates = await listPublishedTemplates();
-  const templatesByName = new Map(templates.map((template) => [template.name, template]));
-  const featuredTemplates = featuredTemplateNames.flatMap((name) => {
-    const template = templatesByName.get(name);
-    return template ? [template] : [];
-  });
+  const featuredTemplates = templates
+    .filter((template) => template.slug.startsWith("bg-") && !template.slug.startsWith("bg-android-"))
+    .slice(0, 7);
 
   return (
     <div className="bg-white">
@@ -38,7 +27,7 @@ export default async function MarketingTemplatesPage() {
         <img
           className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover z-0"
           src="/assets/imgs/pages/fintech-app/page-home/home-section-1/img-bg.png"
-          alt=""
+          alt="AppShot Studio app store screenshot template preview"
         />
         <div className="container position-relative z-2 pt-8 text-center overflow-hidden">
           <span className="content-top btn-text text-white">TEMPLATE LIBRARY</span>
@@ -51,7 +40,7 @@ export default async function MarketingTemplatesPage() {
             <span className="text-secondary"> launches </span>
           </h1>
           <p className="fs-5 text-white opacity-75 mb-0 mx-auto" style={{ maxWidth: 720 }}>
-            Browse published screenshot templates from the seeded database and pick a starting point for your next store update.
+            Browse published screenshot templates from the unique library and pick a starting point for your next store update.
           </p>
         </div>
       </section>
@@ -60,10 +49,10 @@ export default async function MarketingTemplatesPage() {
         <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-sm font-black uppercase tracking-wide text-slate-500">Featured templates</p>
-            <h2 className="mt-2 text-3xl font-black text-slate-950">Demo screenshot sets</h2>
+            <h2 className="mt-2 text-3xl font-black !text-slate-950">Demo screenshot sets</h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-slate-600">
-            A curated set of published seed templates for the public frontend. Each preview shows the multi-screen screenshot layout.
+            A curated set of unique templates for the public frontend. Each preview shows the multi-screen screenshot layout.
           </p>
         </div>
 
@@ -73,7 +62,7 @@ export default async function MarketingTemplatesPage() {
               <TemplateListPreview screens={template.editorScreens} />
               <div className="mt-5 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                 <div className="min-w-0">
-                  <h3 className="text-2xl font-black leading-tight text-slate-950">{template.name}</h3>
+                  <h3 className="text-2xl font-black leading-tight !text-slate-950">{template.name}</h3>
                   <p className="mt-3 max-w-4xl text-sm leading-6 text-slate-600">{template.description || "No description yet."}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {deviceBadges.map((device) => (
@@ -83,12 +72,14 @@ export default async function MarketingTemplatesPage() {
                     ))}
                   </div>
                 </div>
-                <a
-                  href="/sign-up"
-                  className="inline-flex shrink-0 items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-black uppercase tracking-wide text-white transition hover:bg-slate-800"
+                <TrackedLink
+                  href={`/sign-up?redirectTo=${encodeURIComponent(`/app/templates/${template.id}/use`)}`}
+                  eventName="template_use_clicked"
+                  eventParams={{ template_id: template.id, template_name: template.name }}
+                  className="inline-flex shrink-0 items-center justify-center rounded-full border border-slate-950 !bg-slate-950 px-5 py-3 text-sm font-black uppercase tracking-wide !text-white transition hover:!bg-slate-800"
                 >
                   Use this template
-                </a>
+                </TrackedLink>
               </div>
             </article>
           ))}

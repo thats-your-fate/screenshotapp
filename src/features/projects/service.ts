@@ -1,4 +1,5 @@
 import { db } from "@/lib/db/prisma";
+import { trackServerEvent } from "@/lib/analytics/ga-server";
 import { mergeElementsWithOverrides } from "@/features/editor/merge";
 import type { EditorElement, EditorScreen } from "@/features/editor/types";
 
@@ -236,7 +237,7 @@ export async function createProjectFromTemplate(userId: string, templateId: stri
     initialScreens[0]?.elements.sort((a, b) => a.zIndex - b.zIndex);
   }
 
-  return db.project.create({
+  const project = await db.project.create({
     data: {
       userId,
       templateId,
@@ -247,6 +248,18 @@ export async function createProjectFromTemplate(userId: string, templateId: stri
       status: "DRAFT",
     },
   });
+
+  await trackServerEvent({
+    name: "template_work_started",
+    userId,
+    params: {
+      template_id: templateId,
+      project_id: project.id,
+      template_name: template.name,
+    },
+  });
+
+  return project;
 }
 
 export async function updateProjectNameForUser(params: { userId: string; projectId: string; name: string }) {

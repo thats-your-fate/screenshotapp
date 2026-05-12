@@ -10,10 +10,32 @@ import {
 } from "@/features/templates/actions";
 import { listAdminTemplates, listPublishedTemplates } from "@/features/templates/service";
 
-export default async function UserTemplatesPage() {
+type DeviceFilter = "all" | "iphone" | "android";
+
+function normalizeDeviceFilter(value?: string): DeviceFilter {
+  return value === "iphone" || value === "android" ? value : "all";
+}
+
+function deviceLabel(deviceType: "iphone" | "android" | null) {
+  if (deviceType === "android") return "Android";
+  if (deviceType === "iphone") return "iPhone";
+  return "Device";
+}
+
+export default async function UserTemplatesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ device?: string }>;
+}) {
   const user = await requireUser();
+  const { device } = await searchParams;
+  const activeDeviceFilter = normalizeDeviceFilter(device);
   const isAdmin = user.role === "ADMIN";
   const templates = isAdmin ? await listAdminTemplates() : await listPublishedTemplates();
+  const filteredTemplates =
+    activeDeviceFilter === "all"
+      ? templates
+      : templates.filter((template) => template.deviceType === activeDeviceFilter);
 
   return (
     <div className="space-y-4">
@@ -28,15 +50,40 @@ export default async function UserTemplatesPage() {
           </Link>
         ) : null}
       </div>
+      <form className="flex flex-col gap-2 rounded-xl border border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-sm font-semibold text-slate-900">Device type</p>
+          <p className="text-xs text-slate-500">Show iPhone or Android screenshot templates.</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <select
+            name="device"
+            defaultValue={activeDeviceFilter}
+            className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900"
+          >
+            <option value="all">All devices</option>
+            <option value="iphone">iPhone</option>
+            <option value="android">Android</option>
+          </select>
+          <button type="submit" className="rounded-md !bg-slate-900 px-3 py-2 text-sm font-semibold !text-white hover:!bg-slate-700">
+            Apply
+          </button>
+        </div>
+      </form>
       <div className="space-y-5">
-        {templates.map((template) => (
+        {filteredTemplates.map((template) => (
             <article key={template.id} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
               <TemplateListPreview screens={template.editorScreens} />
               <div className="flex items-center justify-between gap-3">
                 <h2 className="mt-3 text-xl text-slate-900">{template.name}</h2>
-                <span className="rounded-full border border-slate-300 px-2 py-0.5 text-[10px] font-semibold text-slate-600">
-                  {template.status}
-                </span>
+                <div className="flex shrink-0 flex-wrap justify-end gap-2">
+                  <span className="rounded-full border border-slate-300 px-2 py-0.5 text-[10px] font-semibold text-slate-600">
+                    {deviceLabel(template.deviceType)}
+                  </span>
+                  <span className="rounded-full border border-slate-300 px-2 py-0.5 text-[10px] font-semibold text-slate-600">
+                    {template.status}
+                  </span>
+                </div>
               </div>
               <p className="mt-2 text-sm text-slate-600">{template.description || "No description yet."}</p>
               <p className="mt-3 text-xs text-slate-500">{template.canvasWidth} x {template.canvasHeight}</p>
@@ -92,6 +139,11 @@ export default async function UserTemplatesPage() {
               </div>
             </article>
         ))}
+        {filteredTemplates.length === 0 ? (
+          <div className="rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-600">
+            No templates match this device filter.
+          </div>
+        ) : null}
       </div>
     </div>
   );

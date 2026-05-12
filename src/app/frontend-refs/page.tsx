@@ -65,7 +65,7 @@ export default function FrontendRefsPage() {
                   }}
                 >
                   <div style={{ height: 230, display: "grid", placeItems: "center", background: "#edf2ff", padding: 22 }}>
-                    <img src={ref.image} alt="" style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
+                    <img src={ref.image} alt={`${ref.label} frontend reference preview`} style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }} />
                   </div>
                   <div style={{ padding: 22 }}>
                     <p style={{ color: "#ff5a3d", fontWeight: 800 }}>{ref.name}</p>

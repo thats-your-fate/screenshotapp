@@ -6,14 +6,20 @@ import { redirect } from "next/navigation";
 import { isRedirectError } from "next/dist/client/components/redirect-error";
 
 import { db } from "@/lib/db/prisma";
+import { trackServerEvent } from "@/lib/analytics/ga-server";
 import { signIn, signOut } from "@/features/auth/auth";
 import { signInSchema, signUpSchema } from "@/features/auth/validations";
+
+function safeRedirectTo(value: FormDataEntryValue | string | null | undefined) {
+  return typeof value === "string" && value.startsWith("/") ? value : "/app";
+}
 
 export async function signUpAction(formData: FormData) {
   const parsed = signUpSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
     password: formData.get("password"),
+    redirectTo: formData.get("redirectTo") || "/app",
   });
 
   if (!parsed.success) {
@@ -27,7 +33,7 @@ export async function signUpAction(formData: FormData) {
 
   const passwordHash = await bcrypt.hash(parsed.data.password, 12);
 
-  await db.user.create({
+  const user = await db.user.create({
     data: {
       name: parsed.data.name,
       email: parsed.data.email,
@@ -36,10 +42,16 @@ export async function signUpAction(formData: FormData) {
     },
   });
 
+  await trackServerEvent({
+    name: "sign_up_completed",
+    userId: user.id,
+    params: { method: "credentials" },
+  });
+
   await signIn("credentials", {
     email: parsed.data.email,
     password: parsed.data.password,
-    redirectTo: "/app",
+    redirectTo: safeRedirectTo(parsed.data.redirectTo),
   });
 
   return { ok: true };
@@ -49,7 +61,7 @@ export async function signInAction(formData: FormData) {
   const parsed = signInSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
-    redirectTo: formData.get("redirectTo") || "/app",
+    redirectTo: safeRedirectTo(formData.get("redirectTo")),
   });
 
   if (!parsed.success) {
@@ -60,7 +72,7 @@ export async function signInAction(formData: FormData) {
     await signIn("credentials", {
       email: parsed.data.email,
       password: parsed.data.password,
-      redirectTo: parsed.data.redirectTo || "/app",
+      redirectTo: safeRedirectTo(parsed.data.redirectTo),
     });
   } catch (error) {
     if (isRedirectError(error)) {
@@ -81,7 +93,7 @@ export async function signInWithGoogleAction(formData: FormData) {
   const redirectTo = formData.get("redirectTo");
 
   await signIn("google", {
-    redirectTo: typeof redirectTo === "string" && redirectTo.length > 0 ? redirectTo : "/app",
+    redirectTo: safeRedirectTo(redirectTo),
   });
 }
 

@@ -162,6 +162,22 @@ function buildTemplateScreensFromElements(params: {
   return screens;
 }
 
+function getTemplateDeviceType(editorScreens: EditorScreen[]) {
+  for (const screen of editorScreens) {
+    const deviceElement = screen.elements.find(
+      (element) => element.kind === "DEVICE_SCREENSHOT_SLOT" || element.data.deviceType,
+    );
+    if (deviceElement?.data.deviceType === "android") {
+      return "android" as const;
+    }
+    if (deviceElement?.data.deviceType === "iphone") {
+      return "iphone" as const;
+    }
+  }
+
+  return null;
+}
+
 export async function listPublishedTemplates() {
   const templates = await db.template.findMany({
     where: { status: "PUBLISHED" },
@@ -191,15 +207,20 @@ export async function listPublishedTemplates() {
     },
   });
 
-  return templates.map((template) => ({
-    ...template,
-    editorScreens: buildTemplateScreensFromElements({
+  return templates.map((template) => {
+    const editorScreens = buildTemplateScreensFromElements({
       elements: template.elements,
       canvasWidth: template.canvasWidth,
       canvasHeight: template.canvasHeight,
       backgroundColor: template.backgroundColor,
-    }),
-  }));
+    });
+
+    return {
+      ...template,
+      editorScreens,
+      deviceType: getTemplateDeviceType(editorScreens),
+    };
+  });
 }
 
 export async function listAdminTemplates() {
@@ -230,15 +251,20 @@ export async function listAdminTemplates() {
     },
   });
 
-  return templates.map((template) => ({
-    ...template,
-    editorScreens: buildTemplateScreensFromElements({
+  return templates.map((template) => {
+    const editorScreens = buildTemplateScreensFromElements({
       elements: template.elements,
       canvasWidth: template.canvasWidth,
       canvasHeight: template.canvasHeight,
       backgroundColor: template.backgroundColor,
-    }),
-  }));
+    });
+
+    return {
+      ...template,
+      editorScreens,
+      deviceType: getTemplateDeviceType(editorScreens),
+    };
+  });
 }
 
 export async function getTemplateForAdmin(templateId: string) {

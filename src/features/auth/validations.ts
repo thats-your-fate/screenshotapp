@@ -10,6 +10,7 @@ export const signUpSchema = z.object({
     .regex(/[A-Z]/, "Must include an uppercase letter")
     .regex(/[a-z]/, "Must include a lowercase letter")
     .regex(/[0-9]/, "Must include a number"),
+  redirectTo: z.string().optional(),
 });
 
 export const signInSchema = z.object({

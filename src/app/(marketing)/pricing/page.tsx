@@ -2,9 +2,9 @@
 import Link from "next/link";
 
 const plans = [
-  { name: "Starter", price: "$19", text: "For solo creators testing store visuals.", highlight: false },
-  { name: "Growth", price: "$79", text: "For teams shipping screenshots regularly.", highlight: true },
-  { name: "Studio", price: "$249", text: "For agencies managing many app brands.", highlight: false },
+  { name: "Starter", price: "$5", text: "For solo creators testing store visuals.", highlight: false },
+  { name: "Growth", price: "$10", text: "For teams shipping screenshots regularly.", highlight: true },
+  { name: "Studio", price: "$15", text: "For agencies managing many app brands.", highlight: false },
 ];
 
 const included = ["Published templates", "Project editor", "Local uploads", "Bulk exports"];
@@ -26,7 +26,7 @@ export default function PricingPage() {
         <img
           className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover z-0"
           src="/assets/imgs/pages/fintech-app/page-home/home-section-1/img-bg.png"
-          alt=""
+          alt="Bulk export app screenshot workflow"
         />
         <div className="container position-relative z-2 pt-8 text-center overflow-hidden">
           <span className="content-top btn-text text-white">APP PLANS</span>
@@ -75,7 +75,7 @@ export default function PricingPage() {
                     {included.map((item) => (
                       <li key={item} className={`d-flex align-items-center justify-content-between border-top py-3 ${plan.highlight ? "border-secondary" : "border-white border-opacity-10"}`}>
                         <p className={`fs-7 mb-0 ${plan.highlight ? "text-dark" : "text-white opacity-75"}`}>{item}</p>
-                        <img className="filter-invert" src="/assets/imgs/template/icons/check.svg" alt="" />
+                        <img className="filter-invert" src="/assets/imgs/template/icons/check.svg" alt="Included feature" />
                       </li>
                     ))}
                   </ul>

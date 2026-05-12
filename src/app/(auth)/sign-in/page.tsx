@@ -27,7 +27,13 @@ export default async function SignInPage({
         />
       </div>
       <p className="mt-4 text-sm text-slate-600">
-        No account? <Link href="/sign-up" className="font-semibold text-slate-900">Create one</Link>
+        No account?{" "}
+        <Link
+          href={redirectTo ? `/sign-up?redirectTo=${encodeURIComponent(redirectTo)}` : "/sign-up"}
+          className="font-semibold text-slate-900"
+        >
+          Create one
+        </Link>
       </p>
     </div>
   );

@@ -13,7 +13,7 @@ export type ElementData = {
   fit?: "cover" | "contain";
   borderRadius?: number;
   placeholderLabel?: string;
-  deviceType?: "iphone";
+  deviceType?: "iphone" | "android";
   deviceBackgroundColor?: string;
   deviceMaskFillAssetUrl?: string | null;
   deviceScreenOffsetX?: number;

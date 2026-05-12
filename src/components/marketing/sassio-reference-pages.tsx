@@ -167,7 +167,7 @@ function PricingPreview() {
               <div className={`relative rounded-16 pt-60 pb-50 px-40 text-center ${index === 1 ? "bg-light-4" : "bg-white border-light"}`}>
                 {index === 1 ? <div className="badge absolute-x-center top-30 bg-accent text-white">Popular</div> : null}
                 <div className="text-xl lh-1 fw-600">{tier}</div>
-                <h3 className="text-3xl fw-700 mt-20">{index === 2 ? "Custom" : index === 1 ? "$79" : "$19"}</h3>
+                <h3 className="text-3xl fw-700 mt-20">{index === 2 ? "$15" : index === 1 ? "$10" : "$5"}</h3>
                 <p className="mt-20">Dummy billing tier for choosing the frontend direction.</p>
                 <Link href="/sign-up" className={`button -md mt-32 ${index === 1 ? "-accent text-white" : "-outline-dark text-black"}`}>
                   Start now

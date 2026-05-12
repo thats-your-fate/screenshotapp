@@ -1,0 +1,494 @@
+{
+  "en": {
+    "path": "/",
+    "hreflang": "en",
+    "title": "AppShot Studio – App Store Screenshot Generator for iOS and Android",
+    "description": "Create polished App Store and Google Play screenshot sets from reusable templates, device frames, editable text, and bulk exports.",
+    "nav": {
+      "home": "Home",
+      "templates": "Templates",
+      "pricing": "Pricing",
+      "signIn": "Sign in",
+      "startFree": "start free"
+    },
+    "footer": {
+      "eyebrow": "ready to launch",
+      "headingStart": "Start",
+      "headingMiddle": "your screenshot",
+      "headingStroke": "workflow",
+      "emailPlaceholder": "Business email",
+      "joinCta": "join with us",
+      "templates": "Templates",
+      "pricing": "Pricing",
+      "workspace": "Workspace",
+      "admin": "Admin",
+      "lineOne": "AppShot Studio helps teams create polished App Store screenshot sets.",
+      "lineTwo": "Secure workspace access for creators, teams, and admins."
+    },
+    "eyebrow": "APP STORE SCREENSHOTS",
+    "h1": {
+      "start": "App Store Screenshot Generator",
+      "middle": "for\niOS and",
+      "accent": "Android"
+    },
+    "subtitle": "Turn reusable templates, device frames, and editable text into polished App Store and Google Play screenshot sets for every release.",
+    "primaryCta": "get started now",
+    "uniqueTemplates": "Unique templates",
+    "featureHeading": "Core features for App Store creative production",
+    "featureIntro": "Build complete screenshot campaigns from reusable templates. Replace screenshots, tune copy, and export every screen from one project.",
+    "features": [
+      {
+        "title": "Template-locked layouts",
+        "subtitle": "Admin-controlled structure",
+        "text": "Admins define the screenshot frame, background, and editable text zones once."
+      },
+      {
+        "title": "Device screenshot slots",
+        "subtitle": "Aligned screen placement",
+        "text": "Drop mobile screens into polished iPhone slots and keep each screen aligned."
+      },
+      {
+        "title": "Bulk export pipeline",
+        "subtitle": "Launch assets in one pass",
+        "text": "Create complete App Store sets from a multi-screen project workspace."
+      }
+    ],
+    "editorEyebrow": "EDITOR READY",
+    "editorHeading": {
+      "start": "Special",
+      "middle": "template\nscreenshot system",
+      "accent": "and",
+      "end": "ready",
+      "stroke": "exports"
+    },
+    "editorBullets": [
+      "Text frames align with device slots",
+      "Users can set text left, center, or right",
+      "Unique projects include seven screens"
+    ],
+    "workspaceCta": "open workspace",
+    "plansEyebrow": "app plans",
+    "plansHeading": {
+      "start": "Unleash",
+      "middle": "your\nscreenshot",
+      "accent": "system",
+      "end": "potential"
+    },
+    "plans": [
+      {
+        "name": "Starter",
+        "text": "For solo creators testing store visuals."
+      },
+      {
+        "name": "Growth",
+        "text": "For teams shipping screenshots regularly."
+      },
+      {
+        "name": "Studio",
+        "text": "For agencies managing many app brands."
+      }
+    ],
+    "pricingCta": "view pricing",
+    "includedLabel": "What is included:",
+    "included": ["Published templates", "Project editor", "Local uploads", "Bulk exports"],
+    "launchHeading": "AppShot turns templates into\nlaunch-ready screenshot sets",
+    "launchText": "Start from unique templates or create your own.",
+    "browseTemplatesCta": "browse templates",
+    "createAccountCta": "create account",
+    "faqEyebrow": "FAQ",
+    "faqHeading": {
+      "start": "Questions",
+      "middle": "teams ask\nbefore",
+      "accent": "launch",
+      "stroke": "day."
+    },
+    "faqIntro": "Practical answers for template setup, safe editing, and exporting production screenshot sets.",
+    "faqs": [
+      [
+        "Can I use my own app screenshots?",
+        "Yes. Upload your product screens into editable device slots, adjust copy and layout, then export polished App Store-ready assets from the same project."
+      ],
+      [
+        "Can teams keep templates locked?",
+        "Yes. Admins control the base template, locked layers, and editable zones so users can safely customize campaign text and screenshots without breaking the design system."
+      ],
+      [
+        "Does AppShot support bulk export?",
+        "Yes. A project can contain multiple screens, and the editor can export the full screenshot set in one pass for faster release prep."
+      ],
+      [
+        "Where are uploads and exports stored?",
+        "The current build stores files locally for simple deployment. The storage layer is isolated so it can be swapped for S3 or another object store later."
+      ]
+    ]
+  },
+  "de": {
+    "path": "/de/",
+    "hreflang": "de",
+    "title": "AppShot Studio – App Store Screenshot Generator für iOS und Android",
+    "description": "Erstellen Sie professionelle App-Store- und Google-Play-Screenshots mit Vorlagen, Geräte-Frames und KI-gestützten Workflows.",
+    "nav": {
+      "home": "Start",
+      "templates": "Vorlagen",
+      "pricing": "Preise",
+      "signIn": "Anmelden",
+      "startFree": "gratis starten"
+    },
+    "footer": {
+      "eyebrow": "bereit für den Launch",
+      "headingStart": "Starten Sie",
+      "headingMiddle": "Ihren Screenshot",
+      "headingStroke": "Workflow",
+      "emailPlaceholder": "Business-E-Mail",
+      "joinCta": "mitmachen",
+      "templates": "Vorlagen",
+      "pricing": "Preise",
+      "workspace": "Workspace",
+      "admin": "Admin",
+      "lineOne": "AppShot Studio hilft Teams, professionelle App-Store-Screenshot-Sets zu erstellen.",
+      "lineTwo": "Sicherer Workspace-Zugang für Creator, Teams und Admins."
+    },
+    "eyebrow": "APP STORE SCREENSHOTS",
+    "h1": {
+      "start": "App Store Screenshot Generator",
+      "middle": "für\niOS und",
+      "accent": "Android"
+    },
+    "subtitle": "Erstellen Sie mit wiederverwendbaren Vorlagen, Geräte-Frames und editierbarem Text professionelle Screenshot-Sets für App Store und Google Play.",
+    "primaryCta": "Jetzt starten",
+    "uniqueTemplates": "Einzigartige Vorlagen",
+    "featureHeading": "Zentrale Funktionen für App-Store-Creatives",
+    "featureIntro": "Erstellen Sie komplette Screenshot-Kampagnen aus wiederverwendbaren Vorlagen. Screenshots ersetzen, Texte anpassen und alles exportieren.",
+    "features": [
+      {
+        "title": "Gesperrte Template-Layouts",
+        "subtitle": "Admin-kontrollierte Struktur",
+        "text": "Admins definieren Screenshot-Frame, Hintergrund und editierbare Textbereiche einmalig."
+      },
+      {
+        "title": "Geräte-Screenshot-Slots",
+        "subtitle": "Saubere Ausrichtung",
+        "text": "Fügen Sie mobile Screens in polierte Geräte-Frames ein und halten Sie jedes Motiv ausgerichtet."
+      },
+      {
+        "title": "Bulk-Export",
+        "subtitle": "Launch-Assets in einem Durchlauf",
+        "text": "Erstellen Sie komplette App-Store-Sets aus einem Projekt mit mehreren Screens."
+      }
+    ],
+    "editorEyebrow": "EDITOR BEREIT",
+    "editorHeading": {
+      "start": "Ein",
+      "middle": "Template-System\nfür Screenshots",
+      "accent": "mit",
+      "end": "fertigen",
+      "stroke": "Exports"
+    },
+    "editorBullets": [
+      "Textflächen passen zu den Geräte-Slots",
+      "Nutzer können Text links, mittig oder rechts setzen",
+      "Seed-Projekte enthalten sieben Screens"
+    ],
+    "workspaceCta": "Workspace öffnen",
+    "plansEyebrow": "App-Pläne",
+    "plansHeading": {
+      "start": "Entfalten Sie",
+      "middle": "Ihr\nScreenshot",
+      "accent": "System",
+      "end": "voll"
+    },
+    "plans": [
+      {
+        "name": "Starter",
+        "text": "Für Solo-Creator, die Store-Visuals testen."
+      },
+      {
+        "name": "Growth",
+        "text": "Für Teams, die regelmäßig Screenshots veröffentlichen."
+      },
+      {
+        "name": "Studio",
+        "text": "Für Agenturen mit mehreren App-Marken."
+      }
+    ],
+    "pricingCta": "Preise ansehen",
+    "includedLabel": "Enthalten:",
+    "included": ["Veröffentlichte Vorlagen", "Projekt-Editor", "Lokale Uploads", "Bulk-Exporte"],
+    "launchHeading": "AppShot macht aus Vorlagen\nlaunchfertige Screenshot-Sets",
+    "launchText": "Starten Sie mit vorhandenen Vorlagen oder erstellen Sie eigene.",
+    "browseTemplatesCta": "Vorlagen ansehen",
+    "createAccountCta": "Account erstellen",
+    "faqEyebrow": "FAQ",
+    "faqHeading": {
+      "start": "Fragen",
+      "middle": "vor dem\nLaunch",
+      "accent": "kurz",
+      "stroke": "beantwortet."
+    },
+    "faqIntro": "Praktische Antworten zu Templates, sicherer Bearbeitung und Exporten für produktionsreife Screenshot-Sets.",
+    "faqs": [
+      [
+        "Kann ich eigene App-Screenshots verwenden?",
+        "Ja. Laden Sie Produkt-Screens in editierbare Geräte-Slots, passen Sie Texte und Layout an und exportieren Sie fertige Store-Assets."
+      ],
+      [
+        "Können Teams Templates sperren?",
+        "Ja. Admins kontrollieren Basislayout, gesperrte Ebenen und editierbare Bereiche, damit Nutzer sicher arbeiten können."
+      ],
+      [
+        "Unterstützt AppShot Bulk-Export?",
+        "Ja. Ein Projekt kann mehrere Screens enthalten und als komplettes Screenshot-Set exportiert werden."
+      ],
+      [
+        "Wo werden Uploads und Exporte gespeichert?",
+        "Die aktuelle Version speichert Dateien lokal. Die Storage-Schicht kann später gegen S3 oder einen anderen Anbieter getauscht werden."
+      ]
+    ]
+  },
+  "pt-br": {
+    "path": "/pt-br/",
+    "hreflang": "pt-BR",
+    "title": "AppShot Studio – Gerador de Screenshots para App Store",
+    "description": "Crie screenshots profissionais para App Store e Google Play usando modelos reutilizáveis e fluxos com IA.",
+    "nav": {
+      "home": "Início",
+      "templates": "Modelos",
+      "pricing": "Preços",
+      "signIn": "Entrar",
+      "startFree": "começar grátis"
+    },
+    "footer": {
+      "eyebrow": "pronto para lançar",
+      "headingStart": "Comece",
+      "headingMiddle": "seu fluxo de screenshots",
+      "headingStroke": "agora",
+      "emailPlaceholder": "Email profissional",
+      "joinCta": "participar",
+      "templates": "Modelos",
+      "pricing": "Preços",
+      "workspace": "Workspace",
+      "admin": "Admin",
+      "lineOne": "AppShot Studio ajuda equipes a criar screenshots profissionais para lojas.",
+      "lineTwo": "Acesso seguro ao workspace para criadores, equipes e admins."
+    },
+    "eyebrow": "SCREENSHOTS PARA APP STORE",
+    "h1": {
+      "start": "Gerador de Screenshots para App Store",
+      "middle": "no\niOS e",
+      "accent": "Android"
+    },
+    "subtitle": "Transforme modelos reutilizáveis, molduras de dispositivos e textos editáveis em screenshots prontos para App Store e Google Play.",
+    "primaryCta": "Começar agora",
+    "uniqueTemplates": "Modelos únicos",
+    "featureHeading": "Recursos para criativos de App Store",
+    "featureIntro": "Crie campanhas completas de screenshots com modelos reutilizáveis. Troque telas, ajuste textos e exporte tudo em um projeto.",
+    "features": [
+      {
+        "title": "Layouts bloqueados por modelo",
+        "subtitle": "Estrutura controlada por admins",
+        "text": "Admins definem moldura, fundo e áreas de texto editáveis uma única vez."
+      },
+      {
+        "title": "Slots para screenshots",
+        "subtitle": "Posicionamento alinhado",
+        "text": "Insira telas mobile em frames polidos e mantenha cada screenshot consistente."
+      },
+      {
+        "title": "Exportação em lote",
+        "subtitle": "Assets de lançamento em um fluxo",
+        "text": "Crie conjuntos completos para App Store a partir de um projeto com várias telas."
+      }
+    ],
+    "editorEyebrow": "EDITOR PRONTO",
+    "editorHeading": {
+      "start": "Sistema",
+      "middle": "de modelos\npara screenshots",
+      "accent": "com",
+      "end": "exportações",
+      "stroke": "prontas"
+    },
+    "editorBullets": [
+      "Textos alinhados aos slots de dispositivo",
+      "Usuários ajustam texto à esquerda, centro ou direita",
+      "Projetos seed incluem sete telas"
+    ],
+    "workspaceCta": "abrir workspace",
+    "plansEyebrow": "planos",
+    "plansHeading": {
+      "start": "Potencialize",
+      "middle": "seu sistema\nde screenshots",
+      "accent": "para",
+      "end": "lançamentos"
+    },
+    "plans": [
+      {
+        "name": "Starter",
+        "text": "Para criadores solo testando visuais de loja."
+      },
+      {
+        "name": "Growth",
+        "text": "Para equipes que publicam screenshots com frequência."
+      },
+      {
+        "name": "Studio",
+        "text": "Para agências com várias marcas de apps."
+      }
+    ],
+    "pricingCta": "ver preços",
+    "includedLabel": "Incluído:",
+    "included": ["Modelos publicados", "Editor de projeto", "Uploads locais", "Exportações em lote"],
+    "launchHeading": "AppShot transforma modelos em\nscreenshots prontos para lançamento",
+    "launchText": "Comece com modelos prontos ou crie o seu.",
+    "browseTemplatesCta": "ver modelos",
+    "createAccountCta": "criar conta",
+    "faqEyebrow": "FAQ",
+    "faqHeading": {
+      "start": "Perguntas",
+      "middle": "antes do\nlançamento",
+      "accent": "sem",
+      "stroke": "complicação."
+    },
+    "faqIntro": "Respostas práticas sobre modelos, edição segura e exportação de screenshots prontos para produção.",
+    "faqs": [
+      [
+        "Posso usar meus próprios screenshots?",
+        "Sim. Envie telas do produto para slots editáveis, ajuste texto e layout e exporte assets prontos para a loja."
+      ],
+      [
+        "Equipes podem bloquear modelos?",
+        "Sim. Admins controlam o layout base, camadas bloqueadas e áreas editáveis para manter tudo consistente."
+      ],
+      [
+        "O AppShot suporta exportação em lote?",
+        "Sim. Um projeto pode ter várias telas e exportar o conjunto completo de uma vez."
+      ],
+      [
+        "Onde uploads e exportações ficam salvos?",
+        "A versão atual usa armazenamento local. A camada de storage pode ser trocada por S3 ou outro provedor depois."
+      ]
+    ]
+  },
+  "es": {
+    "path": "/es/",
+    "hreflang": "es",
+    "title": "AppShot Studio – Generador de Screenshots para App Store",
+    "description": "Crea screenshots profesionales para App Store y Google Play con plantillas reutilizables y herramientas impulsadas por IA.",
+    "nav": {
+      "home": "Inicio",
+      "templates": "Plantillas",
+      "pricing": "Precios",
+      "signIn": "Entrar",
+      "startFree": "empezar gratis"
+    },
+    "footer": {
+      "eyebrow": "listo para lanzar",
+      "headingStart": "Inicia",
+      "headingMiddle": "tu flujo de screenshots",
+      "headingStroke": "ahora",
+      "emailPlaceholder": "Email de trabajo",
+      "joinCta": "unirse",
+      "templates": "Plantillas",
+      "pricing": "Precios",
+      "workspace": "Workspace",
+      "admin": "Admin",
+      "lineOne": "AppShot Studio ayuda a equipos a crear screenshots profesionales para tiendas.",
+      "lineTwo": "Acceso seguro al workspace para creadores, equipos y admins."
+    },
+    "eyebrow": "SCREENSHOTS PARA APP STORE",
+    "h1": {
+      "start": "Generador de Screenshots para App Store",
+      "middle": "en\niOS y",
+      "accent": "Android"
+    },
+    "subtitle": "Convierte plantillas reutilizables, marcos de dispositivos y texto editable en screenshots para App Store y Google Play.",
+    "primaryCta": "Probar ahora",
+    "uniqueTemplates": "Plantillas únicas",
+    "featureHeading": "Funciones para creatividades de App Store",
+    "featureIntro": "Crea campañas completas de screenshots con plantillas reutilizables. Cambia pantallas, ajusta textos y exporta todo desde un proyecto.",
+    "features": [
+      {
+        "title": "Layouts bloqueados por plantilla",
+        "subtitle": "Estructura controlada por admins",
+        "text": "Los admins definen el frame, fondo y zonas de texto editables una sola vez."
+      },
+      {
+        "title": "Slots para screenshots",
+        "subtitle": "Alineación precisa",
+        "text": "Coloca pantallas móviles en frames pulidos y mantén cada screenshot alineado."
+      },
+      {
+        "title": "Exportación masiva",
+        "subtitle": "Assets de lanzamiento en un paso",
+        "text": "Crea sets completos para App Store desde un proyecto con varias pantallas."
+      }
+    ],
+    "editorEyebrow": "EDITOR LISTO",
+    "editorHeading": {
+      "start": "Sistema",
+      "middle": "de plantillas\npara screenshots",
+      "accent": "y",
+      "end": "exportes",
+      "stroke": "listos"
+    },
+    "editorBullets": [
+      "Los textos se alinean con los slots de dispositivo",
+      "Los usuarios ajustan texto a izquierda, centro o derecha",
+      "Los proyectos seed incluyen siete pantallas"
+    ],
+    "workspaceCta": "abrir workspace",
+    "plansEyebrow": "planes",
+    "plansHeading": {
+      "start": "Impulsa",
+      "middle": "tu sistema\nde screenshots",
+      "accent": "para",
+      "end": "lanzamientos"
+    },
+    "plans": [
+      {
+        "name": "Starter",
+        "text": "Para creadores que prueban visuales de tienda."
+      },
+      {
+        "name": "Growth",
+        "text": "Para equipos que publican screenshots con frecuencia."
+      },
+      {
+        "name": "Studio",
+        "text": "Para agencias con muchas marcas de apps."
+      }
+    ],
+    "pricingCta": "ver precios",
+    "includedLabel": "Incluye:",
+    "included": ["Plantillas publicadas", "Editor de proyecto", "Uploads locales", "Exportación masiva"],
+    "launchHeading": "AppShot convierte plantillas en\nsets listos para lanzar",
+    "launchText": "Empieza con plantillas listas o crea las tuyas.",
+    "browseTemplatesCta": "ver plantillas",
+    "createAccountCta": "crear cuenta",
+    "faqEyebrow": "FAQ",
+    "faqHeading": {
+      "start": "Preguntas",
+      "middle": "antes del\nlanzamiento",
+      "accent": "sin",
+      "stroke": "fricción."
+    },
+    "faqIntro": "Respuestas prácticas sobre plantillas, edición segura y exportación de screenshots listos para producción.",
+    "faqs": [
+      [
+        "¿Puedo usar mis propios screenshots?",
+        "Sí. Sube pantallas del producto a slots editables, ajusta texto y layout, y exporta assets listos para la tienda."
+      ],
+      [
+        "¿Los equipos pueden bloquear plantillas?",
+        "Sí. Los admins controlan el layout base, capas bloqueadas y zonas editables para mantener consistencia."
+      ],
+      [
+        "¿AppShot soporta exportación masiva?",
+        "Sí. Un proyecto puede incluir varias pantallas y exportar el set completo en un solo paso."
+      ],
+      [
+        "¿Dónde se guardan uploads y exportes?",
+        "La versión actual usa almacenamiento local. La capa de storage puede cambiarse por S3 u otro proveedor más adelante."
+      ]
+    ]
+  }
+}

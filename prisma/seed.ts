@@ -8,16 +8,45 @@ const prisma = new PrismaClient();
 
 const SCREEN_ID_META_KEY = "__screenId";
 const SCREEN_NAME_META_KEY = "__screenName";
-const TEMPLATE_PREFIX = "Seed Background";
 const CANVAS_WIDTH = 1242;
 const CANVAS_HEIGHT = 2688;
 const SCREEN_COUNT = 7;
-const DEVICE_X = 190;
-const DEVICE_Y = 560;
-const DEVICE_WIDTH = 862;
-const DEVICE_HEIGHT = 1860;
 const HEADLINE_Y = 180;
 const HEADLINE_HEIGHT = 260;
+
+type SeedDeviceConfig = {
+  type: "iphone" | "android";
+  label: string;
+  slugPrefix: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  screenScale: number;
+};
+
+const SEED_DEVICE_CONFIGS: SeedDeviceConfig[] = [
+  {
+    type: "iphone",
+    label: "iPhone",
+    slugPrefix: "bg",
+    x: 190,
+    y: 560,
+    width: 862,
+    height: 1860,
+    screenScale: 0.95,
+  },
+  {
+    type: "android",
+    label: "Android",
+    slugPrefix: "bg-android",
+    x: 161,
+    y: 560,
+    width: 920,
+    height: 1860,
+    screenScale: 0.96,
+  },
+];
 
 function slugify(value: string) {
   return value
@@ -31,6 +60,8 @@ function slugify(value: string) {
 function titleFromFileName(value: string) {
   const withoutExt = value.replace(/\.[^/.]+$/, "");
   return withoutExt
+    .replace(/\b\d{4}[-_ ]\d{2}[-_ ]\d{2}[-_ ]\d{2}[-_ ]\d{2}[-_ ]\d{2}[-_ ]utc\b/i, "")
+    .replace(/\b\d{4}\s+\d{2}\s+\d{2}\s+\d{2}\s+\d{2}\s+\d{2}\s+utc\b/i, "")
     .replace(/[-_]+/g, " ")
     .replace(/\s+/g, " ")
     .trim()
@@ -46,7 +77,7 @@ function pickRandomUnique<T>(items: T[], count: number) {
   return pool.slice(0, Math.min(count, pool.length));
 }
 
-function buildTemplateElements(backgroundUrl: string, deviceBackgroundUrls: string[]) {
+function buildTemplateElements(backgroundUrl: string, deviceBackgroundUrls: string[], device: SeedDeviceConfig) {
   const all: Array<{
     kind: ElementKind;
     name: string;
@@ -95,9 +126,9 @@ function buildTemplateElements(backgroundUrl: string, deviceBackgroundUrls: stri
         kind: ElementKind.TEXT,
         name: "Headline",
         zIndex: 10,
-        x: DEVICE_X,
+        x: device.x,
         y: HEADLINE_Y,
-        width: DEVICE_WIDTH,
+        width: device.width,
         height: HEADLINE_HEIGHT,
         rotation: 0,
         opacity: 1,
@@ -109,7 +140,6 @@ function buildTemplateElements(backgroundUrl: string, deviceBackgroundUrls: stri
           fontSize: 88,
           fontWeight: "bold",
           fontStyle: "normal",
-          fontFamily: "space",
           color: "#0f172a",
           align: "center",
           [SCREEN_ID_META_KEY]: screenId,
@@ -118,19 +148,19 @@ function buildTemplateElements(backgroundUrl: string, deviceBackgroundUrls: stri
       },
       {
         kind: ElementKind.DEVICE_SCREENSHOT_SLOT,
-        name: "Screenshot Slot",
+        name: `${device.label} Screenshot Slot`,
         zIndex: 20,
-        x: DEVICE_X,
-        y: DEVICE_Y,
-        width: DEVICE_WIDTH,
-        height: DEVICE_HEIGHT,
+        x: device.x,
+        y: device.y,
+        width: device.width,
+        height: device.height,
         rotation: 0,
         opacity: 1,
         locked: false,
         visible: true,
         editableByUser: true,
         dataJson: JSON.stringify({
-          deviceType: "iphone",
+          deviceType: device.type,
           deviceBackgroundColor: "#0b1020",
           deviceMaskFillAssetUrl: null,
           assetUrl: deviceBackgroundUrl,
@@ -138,7 +168,7 @@ function buildTemplateElements(backgroundUrl: string, deviceBackgroundUrls: stri
           placeholderLabel: "Upload screenshot",
           deviceScreenOffsetX: 0,
           deviceScreenOffsetY: 0,
-          deviceScreenScale: 0.95,
+          deviceScreenScale: device.screenScale,
           deviceMaskOffsetX: 0,
           deviceMaskOffsetY: 0,
           deviceMaskScale: 1,
@@ -164,11 +194,17 @@ async function listImageFiles(publicSubDir: string) {
     .sort((a, b) => a.localeCompare(b));
 }
 
-async function ensureTemplateForBackground(adminId: string, fileName: string, screenDesignFiles: string[]) {
+async function ensureTemplateForBackground(
+  adminId: string,
+  fileName: string,
+  screenDesignFiles: string[],
+  device: SeedDeviceConfig,
+) {
   const title = titleFromFileName(fileName);
   const baseSlug = slugify(fileName);
-  const slug = `bg-${baseSlug}`;
+  const slug = `${device.slugPrefix}-${baseSlug}`;
   const backgroundUrl = `/backgrounds/${fileName}`;
+  const description = `${device.label} template using ${title}. Includes ${SCREEN_COUNT} screens with text and device slot.`;
   const selectedDeviceBackgrounds = pickRandomUnique(screenDesignFiles, SCREEN_COUNT).map(
     (name) => `/screenDesigns/${name}`,
   );
@@ -176,10 +212,10 @@ async function ensureTemplateForBackground(adminId: string, fileName: string, sc
   const template = await prisma.template.upsert({
     where: { slug },
     update: {
-      name: `${TEMPLATE_PREFIX}: ${title}`,
-      description: `Auto-seeded template using ${fileName}. Includes ${SCREEN_COUNT} screens with text and device slot.`,
+      name: title,
+      description,
       status: TemplateStatus.PUBLISHED,
-      category: "Background Packs",
+      category: device.type === "iphone" ? "Background Packs" : "Android Background Packs",
       canvasWidth: CANVAS_WIDTH,
       canvasHeight: CANVAS_HEIGHT,
       backgroundColor: "#f8fafc",
@@ -187,21 +223,21 @@ async function ensureTemplateForBackground(adminId: string, fileName: string, sc
       publishedAt: new Date(),
     },
     create: {
-      name: `${TEMPLATE_PREFIX}: ${title}`,
+      name: title,
       slug,
-      description: `Auto-seeded template using ${fileName}. Includes ${SCREEN_COUNT} screens with text and device slot.`,
+      description,
       status: TemplateStatus.PUBLISHED,
       canvasWidth: CANVAS_WIDTH,
       canvasHeight: CANVAS_HEIGHT,
       backgroundColor: "#f8fafc",
-      category: "Background Packs",
+      category: device.type === "iphone" ? "Background Packs" : "Android Background Packs",
       previewImageUrl: backgroundUrl,
       publishedAt: new Date(),
       createdById: adminId,
     },
   });
 
-  const elements = buildTemplateElements(backgroundUrl, selectedDeviceBackgrounds);
+  const elements = buildTemplateElements(backgroundUrl, selectedDeviceBackgrounds, device);
 
   await prisma.$transaction(async (tx) => {
     await tx.templateElement.deleteMany({ where: { templateId: template.id } });
@@ -258,11 +294,15 @@ async function main() {
   }
 
   let firstTemplateId: string | null = null;
+  let generatedTemplateCount = 0;
 
   for (const fileName of backgroundFiles) {
-    const template = await ensureTemplateForBackground(admin.id, fileName, screenDesignFiles);
-    if (!firstTemplateId) {
-      firstTemplateId = template.id;
+    for (const device of SEED_DEVICE_CONFIGS) {
+      const template = await ensureTemplateForBackground(admin.id, fileName, screenDesignFiles, device);
+      generatedTemplateCount += 1;
+      if (!firstTemplateId && device.type === "iphone") {
+        firstTemplateId = template.id;
+      }
     }
   }
 
@@ -285,7 +325,7 @@ async function main() {
     });
   }
 
-  console.log(`Seed complete. Generated/updated ${backgroundFiles.length} background templates.`);
+  console.log(`Seed complete. Generated/updated ${generatedTemplateCount} background templates.`);
 }
 
 main()
