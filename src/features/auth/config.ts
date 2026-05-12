@@ -14,6 +14,7 @@ export const authConfig = {
   session: {
     strategy: "jwt",
   },
+  trustHost: true,
   pages: {
     signIn: "/sign-in",
   },
@@ -74,6 +75,22 @@ export const authConfig = {
     }),
   ],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) {
+        return `${baseUrl}${url}`;
+      }
+
+      try {
+        const parsedUrl = new URL(url);
+        if (parsedUrl.origin === baseUrl) {
+          return url;
+        }
+      } catch {
+        return `${baseUrl}/app`;
+      }
+
+      return `${baseUrl}/app`;
+    },
     async signIn({ account, profile }) {
       if (account?.provider !== "google") {
         return true;
