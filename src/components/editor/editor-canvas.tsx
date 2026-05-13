@@ -12,6 +12,16 @@ const ANDROID_FRAME_PNG_PATH = "/devices/%E2%80%94Pngtree%E2%80%94black%20mobile
 const ANDROID_SCREEN_MASK_SVG_PATH = "/devices/android-screen-mask.svg";
 type DeviceLayerTarget = "frame" | "screen" | "background";
 type CommonBackgroundSpan = { index: number; total: number; segmentGapX?: number };
+const DEVICE_SCREEN_IMAGE_BLEED = 2;
+
+function getDeviceScreenImageStyle(fit?: EditorElement["data"]["fit"]) {
+  return {
+    objectFit: fit || "cover",
+    width: `calc(100% + ${DEVICE_SCREEN_IMAGE_BLEED * 2}px)`,
+    height: `calc(100% + ${DEVICE_SCREEN_IMAGE_BLEED * 2}px)`,
+    margin: -DEVICE_SCREEN_IMAGE_BLEED,
+  } as const;
+}
 
 function isCommonBackgroundElement(element: EditorElement) {
   return element.kind === "IMAGE" && element.data.commonBackground === true;
@@ -254,8 +264,8 @@ function renderDeviceContent({
                 alt={element.name}
                 loading="eager"
                 draggable={false}
-                className="h-full w-full select-none"
-                style={{ objectFit: element.data.fit || "cover" }}
+                className="select-none"
+                style={getDeviceScreenImageStyle(element.data.fit)}
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center border border-dashed border-slate-500 bg-slate-900 text-xs text-slate-200">
@@ -280,8 +290,8 @@ function renderDeviceContent({
               alt={element.name}
               loading="eager"
               draggable={false}
-              className="h-full w-full select-none"
-              style={{ objectFit: element.data.fit || "cover" }}
+              className="select-none"
+              style={getDeviceScreenImageStyle(element.data.fit)}
             />
           </div>
         ) : (
