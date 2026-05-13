@@ -7,9 +7,10 @@ export type DevicePreset = {
 
 export const DEVICE_PRESETS: DevicePreset[] = [
   // iPhone App Store targets
-  { id: "iphone-16-pro-max-6-9-primary", label: 'iPhone 16 Pro Max (6.9") - Primary', width: 1320, height: 2868 },
-  { id: "iphone-15-pro-max-6-7-fallback", label: 'iPhone 15 Pro Max (6.7") - Fallback', width: 1290, height: 2796 },
-  { id: "iphone-14-pro-max-6-5-fallback", label: 'iPhone 14 Pro Max (6.5") - Fallback', width: 1284, height: 2778 },
+  { id: "iphone-6-9-1320", label: 'iPhone 6.9" App Store', width: 1320, height: 2868 },
+  { id: "iphone-6-9-1290", label: 'iPhone 6.9" App Store alternate', width: 1290, height: 2796 },
+  { id: "iphone-6-5-1284", label: 'iPhone 6.5" App Store', width: 1284, height: 2778 },
+  { id: "iphone-6-5-1242", label: 'iPhone 6.5" App Store alternate', width: 1242, height: 2688 },
   { id: "iphone-8-plus-5-5-legacy", label: 'iPhone 8 Plus (5.5") - Legacy', width: 1242, height: 2208 },
 
   // iPad App Store targets
