@@ -97,7 +97,7 @@ Notes:
   - Loads template + overrides merged state
   - Adds custom text overlays and graphic overlay layers
   - Deletes user-created custom layers
-  - Switches device canvas presets (iPhone/iPad/MacBook sizes)
+  - Switches device canvas presets (iPhone and Android phone sizes)
   - Supports multiple screens per project
   - Supports bulk export for all screens
   - Text controls: font family, text color, normal/bold/italic

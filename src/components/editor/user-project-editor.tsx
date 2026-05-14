@@ -13,6 +13,14 @@ import { saveProjectEditorStateAction, updateProjectNameAction } from "@/feature
 
 type ExportOutputFormat = "PNG" | "JPG" | "WEBP";
 const TEXT_ALIGN_OPTIONS = ["left", "center", "right"] as const;
+const DEVICE_FRAME_ASPECT_RATIO: Record<NonNullable<EditorElement["data"]["deviceType"]>, number> = {
+  iphone: 376 / 776,
+  android: 1614 / 3265,
+};
+
+function getDeviceFrameAspectRatio(deviceType: EditorElement["data"]["deviceType"]) {
+  return DEVICE_FRAME_ASPECT_RATIO[deviceType || "iphone"];
+}
 
 function createCustomElement(
   kind: "TEXT" | "IMAGE" | "DEVICE_SCREENSHOT_SLOT",
@@ -53,7 +61,7 @@ function createCustomElement(
     const canvasWidth = canvas?.width || 1170;
     const canvasHeight = canvas?.height || 2532;
     const deviceHeight = Math.max(280, Math.round(canvasHeight * 0.94));
-    const deviceWidth = Math.max(120, Math.round((deviceHeight * 1170) / 2532));
+    const deviceWidth = Math.max(120, Math.round(deviceHeight * getDeviceFrameAspectRatio("iphone")));
 
     return {
       id,
@@ -111,6 +119,27 @@ function createCustomElement(
   };
 }
 
+function createDeviceElement(
+  deviceType: NonNullable<EditorElement["data"]["deviceType"]>,
+  zIndex: number,
+  canvas: { width: number; height: number },
+): EditorElement {
+  const element = createCustomElement("DEVICE_SCREENSHOT_SLOT", zIndex, canvas);
+  const height = element.height;
+  const width = Math.max(120, Math.round(height * getDeviceFrameAspectRatio(deviceType)));
+
+  return {
+    ...element,
+    name: deviceType === "android" ? "Android Device" : "iPhone Device",
+    x: Math.round((canvas.width - width) / 2),
+    width,
+    data: {
+      ...element.data,
+      deviceType,
+    },
+  };
+}
+
 function isCommonBackgroundElement(element: EditorElement) {
   return element.kind === "IMAGE" && element.data.commonBackground === true;
 }
@@ -148,8 +177,10 @@ function createCommonBackgroundElement(zIndex: number, canvas: { width: number; 
   };
 }
 
-function isIphonePresetId(presetId: string) {
-  return presetId.startsWith("iphone-");
+function getPresetDeviceType(presetId: string): EditorElement["data"]["deviceType"] | null {
+  if (presetId.startsWith("iphone-")) return "iphone";
+  if (presetId.startsWith("android-")) return "android";
+  return null;
 }
 
 function createNewScreenFromCurrent(current: EditorScreen, index: number): EditorScreen {
@@ -578,7 +609,7 @@ export function UserProjectEditor({
   }
 
   function enableSharedDeviceAcrossNextScreen() {
-    if (!selected || !(selected.kind === "DEVICE_SCREENSHOT_SLOT" || selected.data.deviceType === "iphone")) return;
+    if (!selected || !(selected.kind === "DEVICE_SCREENSHOT_SLOT" || selected.data.deviceType)) return;
     if (activeScreenIndex >= screens.length - 1) {
       setMessage({ text: "Need a next screen to span device across 2 screens.", tone: "error" });
       return;
@@ -681,45 +712,39 @@ export function UserProjectEditor({
     const preset = DEVICE_PRESETS.find((item) => item.id === presetId);
     if (!preset) return;
 
-    const shouldEnsureIphoneDevice = isIphonePresetId(preset.id);
-    const existingIphoneDevice = activeScreen.elements.find(
-      (element) => element.kind === "DEVICE_SCREENSHOT_SLOT" || element.data.deviceType === "iphone",
+    const presetDeviceType = getPresetDeviceType(preset.id);
+    const shouldEnsureDevice = !!presetDeviceType;
+    const existingDevice = activeScreen.elements.find(
+      (element) => element.kind === "DEVICE_SCREENSHOT_SLOT" || !!element.data.deviceType,
     );
     const activeMaxZ = activeScreen.elements.length > 0 ? Math.max(...activeScreen.elements.map((el) => el.zIndex)) : 0;
-    const newDeviceElementForActive =
-      shouldEnsureIphoneDevice && !existingIphoneDevice
-        ? createCustomElement("DEVICE_SCREENSHOT_SLOT", activeMaxZ + 1, {
+    const newActiveDeviceElement =
+      shouldEnsureDevice && !existingDevice
+        ? createDeviceElement(presetDeviceType, activeMaxZ + 1, {
             width: preset.width,
             height: preset.height,
           })
         : null;
 
-    const linkedScreenIds = new Set<string>();
-    for (const element of activeScreen.elements) {
-      if (!isSharedDeviceElement(element)) continue;
-      const startIndex = element.data.sharedDeviceStartIndex;
-      if (typeof startIndex !== "number") continue;
-
-      if (activeScreenIndex === startIndex) {
-        const next = screens[startIndex + 1];
-        if (next) linkedScreenIds.add(next.id);
-      } else if (activeScreenIndex === startIndex + 1) {
-        const start = screens[startIndex];
-        if (start) linkedScreenIds.add(start.id);
-      }
-    }
-
     setScreens((prev) => {
       const indexById = new Map(prev.map((screen, index) => [screen.id, index]));
 
       return prev.map((screen) => {
-        const shouldResize = screen.id === activeScreen.id || linkedScreenIds.has(screen.id);
-        if (!shouldResize) return screen;
-
         const screenIndex = indexById.get(screen.id) ?? 0;
         const scaleX = preset.width / screen.canvas.width;
         const scaleY = preset.height / screen.canvas.height;
         const isActive = screen.id === activeScreen.id;
+        const hasDevice = screen.elements.some((element) => element.kind === "DEVICE_SCREENSHOT_SLOT" || !!element.data.deviceType);
+        const maxZ = screen.elements.length > 0 ? Math.max(...screen.elements.map((el) => el.zIndex)) : 0;
+        const newDeviceElement =
+          shouldEnsureDevice && !hasDevice
+            ? isActive && newActiveDeviceElement
+              ? newActiveDeviceElement
+              : createDeviceElement(presetDeviceType, maxZ + 1, {
+                  width: preset.width,
+                  height: preset.height,
+                })
+            : null;
 
         return {
           ...screen,
@@ -729,40 +754,60 @@ export function UserProjectEditor({
             height: preset.height,
           },
           elements: [
-            ...screen.elements.map((element) => ({
-              ...element,
-              x: Math.round(element.x * scaleX),
-              y: Math.round(element.y * scaleY),
-              width: Math.max(20, Math.round(element.width * scaleX)),
-              height: Math.max(20, Math.round(element.height * scaleY)),
-              data:
-                element.kind === "DEVICE_SCREENSHOT_SLOT" || element.data.deviceType === "iphone"
-                  ? {
-                      ...element.data,
-                      deviceType: "iphone" as const,
-                      deviceBackgroundColor: element.data.deviceBackgroundColor || "#0b1020",
-                      deviceMaskFillAssetUrl: element.data.deviceMaskFillAssetUrl || null,
-                      deviceScreenOffsetX: element.data.deviceScreenOffsetX || 0,
-                      deviceScreenOffsetY: element.data.deviceScreenOffsetY || 0,
-                      deviceScreenScale: element.data.deviceScreenScale || 1,
-                      deviceMaskOffsetX: element.data.deviceMaskOffsetX || 0,
-                      deviceMaskOffsetY: element.data.deviceMaskOffsetY || 0,
-                      deviceMaskScale: element.data.deviceMaskScale || 1,
-                      sharedDeviceSpanWidth:
-                        element.data.sharedDevicePairId && element.data.sharedDeviceStartIndex === screenIndex
-                          ? preset.width
-                          : element.data.sharedDeviceSpanWidth,
-                    }
-                  : element.data,
-            })),
-            ...(isActive && newDeviceElementForActive ? [newDeviceElementForActive] : []),
+            ...screen.elements.map((element) => {
+              const scaledX = Math.round(element.x * scaleX);
+              const scaledY = Math.round(element.y * scaleY);
+              const scaledWidth = Math.max(20, Math.round(element.width * scaleX));
+              const scaledHeight = Math.max(20, Math.round(element.height * scaleY));
+              const isDevice = element.kind === "DEVICE_SCREENSHOT_SLOT" || !!element.data.deviceType;
+              const nextDeviceType = presetDeviceType || element.data.deviceType || "iphone";
+
+              if (!isDevice) {
+                return {
+                  ...element,
+                  x: scaledX,
+                  y: scaledY,
+                  width: scaledWidth,
+                  height: scaledHeight,
+                };
+              }
+
+              const deviceWidth = Math.max(20, Math.round(scaledHeight * getDeviceFrameAspectRatio(nextDeviceType)));
+              const deviceCenterX = scaledX + scaledWidth / 2;
+
+              return {
+                ...element,
+                name: nextDeviceType === "android" ? "Android Device" : element.name,
+                x: Math.round(deviceCenterX - deviceWidth / 2),
+                y: scaledY,
+                width: deviceWidth,
+                height: scaledHeight,
+                data: {
+                  ...element.data,
+                  deviceType: nextDeviceType,
+                  deviceBackgroundColor: element.data.deviceBackgroundColor || "#0b1020",
+                  deviceMaskFillAssetUrl: element.data.deviceMaskFillAssetUrl || null,
+                  deviceScreenOffsetX: element.data.deviceScreenOffsetX || 0,
+                  deviceScreenOffsetY: element.data.deviceScreenOffsetY || 0,
+                  deviceScreenScale: element.data.deviceScreenScale || 1,
+                  deviceMaskOffsetX: element.data.deviceMaskOffsetX || 0,
+                  deviceMaskOffsetY: element.data.deviceMaskOffsetY || 0,
+                  deviceMaskScale: element.data.deviceMaskScale || 1,
+                  sharedDeviceSpanWidth:
+                    element.data.sharedDevicePairId && element.data.sharedDeviceStartIndex === screenIndex
+                      ? preset.width
+                      : element.data.sharedDeviceSpanWidth,
+                },
+              };
+            }),
+            ...(newDeviceElement ? [newDeviceElement] : []),
           ],
         };
       });
     });
 
-    if (shouldEnsureIphoneDevice) {
-      setSelectedId(existingIphoneDevice?.id || newDeviceElementForActive?.id || null);
+    if (shouldEnsureDevice) {
+      setSelectedId(existingDevice?.id || newActiveDeviceElement?.id || null);
     }
   }
 
@@ -1218,7 +1263,7 @@ export function UserProjectEditor({
               </div>
             ) : null}
 
-            {(selected.kind === "DEVICE_SCREENSHOT_SLOT" || selected.data.deviceType === "iphone") && canEdit(selected) ? (
+            {(selected.kind === "DEVICE_SCREENSHOT_SLOT" || selected.data.deviceType) && canEdit(selected) ? (
               <div className="space-y-3 rounded-md border border-slate-200 p-2">
                 <p className="text-xs font-medium text-slate-700">Device layer edit mode</p>
                 <div className="grid grid-cols-1 gap-2">
