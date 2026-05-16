@@ -14,10 +14,10 @@ type DeviceLayerTarget = "frame" | "screen" | "background";
 type CommonBackgroundSpan = { index: number; total: number; segmentGapX?: number };
 const DEVICE_SCREEN_IMAGE_BLEED = 2;
 const ANDROID_SCREEN_RECT = {
-  x: 72 / 1614,
-  y: 61 / 3265,
-  width: 1478 / 1614,
-  height: 3200 / 3265,
+  x: 76 / 1614,
+  y: 0,
+  width: 1446 / 1614,
+  height: 1,
 };
 
 function getDeviceScreenImageStyle(fit?: EditorElement["data"]["fit"]) {
