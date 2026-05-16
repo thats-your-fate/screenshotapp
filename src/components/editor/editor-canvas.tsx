@@ -13,6 +13,12 @@ const ANDROID_SCREEN_MASK_SVG_PATH = "/devices/android-screen-mask.svg";
 type DeviceLayerTarget = "frame" | "screen" | "background";
 type CommonBackgroundSpan = { index: number; total: number; segmentGapX?: number };
 const DEVICE_SCREEN_IMAGE_BLEED = 2;
+const ANDROID_SCREEN_RECT = {
+  x: 72 / 1614,
+  y: 61 / 3265,
+  width: 1478 / 1614,
+  height: 3200 / 3265,
+};
 
 function getDeviceScreenImageStyle(fit?: EditorElement["data"]["fit"]) {
   return {
@@ -60,6 +66,24 @@ function getDeviceAssets(deviceType: EditorElement["data"]["deviceType"]) {
     framePath: IPHONE_FRAME_SVG_PATH,
     maskPath: IPHONE_SCREEN_MASK_SVG_PATH,
     alt: "iPhone frame",
+  };
+}
+
+function getDeviceScreenRect(deviceType: EditorElement["data"]["deviceType"], baseWidth: number, baseHeight: number) {
+  if (deviceType === "android") {
+    return {
+      x: baseWidth * ANDROID_SCREEN_RECT.x,
+      y: baseHeight * ANDROID_SCREEN_RECT.y,
+      width: baseWidth * ANDROID_SCREEN_RECT.width,
+      height: baseHeight * ANDROID_SCREEN_RECT.height,
+    };
+  }
+
+  return {
+    x: 0,
+    y: 0,
+    width: baseWidth,
+    height: baseHeight,
   };
 }
 
@@ -129,14 +153,15 @@ function renderDeviceContent({
   const canEditBackgroundLayer = editable && selected && deviceLayerTarget === "background";
   const baseWidth = Math.max(1, element.width);
   const baseHeight = Math.max(1, element.height);
+  const screenRect = getDeviceScreenRect(element.data.deviceType, baseWidth, baseHeight);
   const bgWidth = Math.max(1, baseWidth * maskScale);
   const bgHeight = Math.max(1, baseHeight * maskScale);
   const bgX = (baseWidth - bgWidth) / 2 + maskOffsetX;
   const bgY = (baseHeight - bgHeight) / 2 + maskOffsetY;
-  const screenWidth = Math.max(1, baseWidth * screenScale);
-  const screenHeight = Math.max(1, baseHeight * screenScale);
-  const screenX = (baseWidth - screenWidth) / 2 + screenOffsetX;
-  const screenY = (baseHeight - screenHeight) / 2 + screenOffsetY;
+  const screenWidth = Math.max(1, screenRect.width * screenScale);
+  const screenHeight = Math.max(1, screenRect.height * screenScale);
+  const screenX = screenRect.x + (screenRect.width - screenWidth) / 2 + screenOffsetX;
+  const screenY = screenRect.y + (screenRect.height - screenHeight) / 2 + screenOffsetY;
 
   return (
     <div className="relative h-full w-full overflow-visible">
@@ -236,8 +261,8 @@ function renderDeviceContent({
               event.stopPropagation();
             }}
             onDragStop={(_, data) => {
-              const nextOffsetX = Math.round((data.x - (baseWidth - screenWidth) / 2) * 100) / 100;
-              const nextOffsetY = Math.round((data.y - (baseHeight - screenHeight) / 2) * 100) / 100;
+              const nextOffsetX = Math.round((data.x - screenRect.x - (screenRect.width - screenWidth) / 2) * 100) / 100;
+              const nextOffsetY = Math.round((data.y - screenRect.y - (screenRect.height - screenHeight) / 2) * 100) / 100;
               onUpdateData(element.id, {
                 deviceScreenOffsetX: nextOffsetX,
                 deviceScreenOffsetY: nextOffsetY,
@@ -246,9 +271,9 @@ function renderDeviceContent({
             onResizeStop={(_, __, ref, ___, pos) => {
               const nextWidth = Number(ref.style.width.replace("px", ""));
               const nextHeight = Number(ref.style.height.replace("px", ""));
-              const nextScale = Math.max(0.1, Math.round((nextWidth / baseWidth) * 1000) / 1000);
-              const nextOffsetX = Math.round((pos.x - (baseWidth - nextWidth) / 2) * 100) / 100;
-              const nextOffsetY = Math.round((pos.y - (baseHeight - nextHeight) / 2) * 100) / 100;
+              const nextScale = Math.max(0.1, Math.round((nextWidth / screenRect.width) * 1000) / 1000);
+              const nextOffsetX = Math.round((pos.x - screenRect.x - (screenRect.width - nextWidth) / 2) * 100) / 100;
+              const nextOffsetY = Math.round((pos.y - screenRect.y - (screenRect.height - nextHeight) / 2) * 100) / 100;
               onUpdateData(element.id, {
                 deviceScreenScale: nextScale,
                 deviceScreenOffsetX: nextOffsetX,
