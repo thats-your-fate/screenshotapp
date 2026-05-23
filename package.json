@@ -7,19 +7,19 @@
     "npm": "10.x"
   },
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "node server.js",
+    "dev": "node scripts/with-env.cjs -- \"next dev\"",
+    "build": "node scripts/with-env.cjs -- \"next build\"",
+    "start": "node scripts/with-env.cjs -- \"node server.js\"",
     "lint": "eslint .",
-    "db:generate": "prisma generate",
-    "db:deploy": "prisma migrate deploy",
-    "db:migrate": "prisma migrate dev",
-    "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio",
-    "deploy:build": "prisma migrate deploy && prisma generate && next build",
-    "plesk:build": "prisma db push && prisma generate && next build",
-    "postinstall": "prisma generate"
+    "db:generate": "node scripts/with-env.cjs -- \"prisma generate\"",
+    "db:deploy": "node scripts/with-env.cjs -- \"prisma migrate deploy\"",
+    "db:migrate": "node scripts/with-env.cjs -- \"prisma migrate dev\"",
+    "db:push": "node scripts/with-env.cjs -- \"prisma db push\"",
+    "db:seed": "node scripts/with-env.cjs -- \"tsx prisma/seed.ts\"",
+    "db:studio": "node scripts/with-env.cjs -- \"prisma studio\"",
+    "deploy:build": "node scripts/with-env.cjs -- \"prisma migrate deploy && prisma generate && next build\"",
+    "plesk:build": "node scripts/with-env.cjs -- \"prisma db push && prisma generate && next build\"",
+    "postinstall": "node scripts/with-env.cjs -- \"prisma generate\""
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
